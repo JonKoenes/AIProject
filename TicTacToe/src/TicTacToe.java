@@ -1,9 +1,10 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,13 +26,15 @@ import javax.swing.ListSelectionModel;
  * 
  * @author Adam Bartz, Jonathan Koenes, Stephen Bush
  */
-public class TicTacToe extends JFrame {
+public class TicTacToe extends JFrame implements ItemListener {
 	
 
     private JList lstP1, lstP2;     // list box of options for player types
     private String strP1, strP2;    // p1, p2 selected type
     private String[] strPTypes = {"Human", "Computer: H1", "Computer: H2"};      // types of Players
     private String strP1Type = "", strP2Type = "";
+    private GUI myGUI;
+    private JCheckBox chkSquares = new JCheckBox("View Selection Squares");
    
     public TicTacToe () {
             super ("Polar Tic-Tac-Toe by ");	// title
@@ -45,6 +49,8 @@ public class TicTacToe extends JFrame {
             cmdNewGame.setMnemonic(KeyEvent.VK_N);
             JButton cmdQuitGame = new JButton("Quit Game");
             cmdQuitGame.setMnemonic(KeyEvent.VK_Q);
+            chkSquares.setMnemonic(KeyEvent.VK_V);
+            chkSquares.addItemListener(this);
 
             // populate lists
             lstP1 = new JList(strPTypes);
@@ -103,10 +109,13 @@ public class TicTacToe extends JFrame {
             buttonsPane.add(cmdNewGame, layoutConstraintsButtons);
             layoutConstraintsButtons.gridx = 1;
             buttonsPane.add(cmdQuitGame, layoutConstraintsButtons);
+            layoutConstraintsButtons.gridx = 2;
+            buttonsPane.add(chkSquares, layoutConstraintsButtons);
             //add to layout
             layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
             layoutConstraints.gridx = 0;
-            this.add(new GUI(this), layoutConstraints);
+            myGUI = new GUI(this);
+            this.add(myGUI, layoutConstraints);
             layoutConstraints.fill = GridBagConstraints.BOTH;
             layoutConstraints.gridx = 1;
             this.add(statsPane, layoutConstraints);
@@ -139,6 +148,15 @@ public class TicTacToe extends JFrame {
 
 	}
 	
+        public void itemStateChanged(ItemEvent e) {
+            Object source = e.getItemSelectable();
+            if (source == chkSquares)
+                if (chkSquares.isSelected())
+                    myGUI.SetViewSelectionSquares(true);
+                else
+                    myGUI.SetViewSelectionSquares(false);                    
+        }
+
         private void setList1Values(String newVal) {
             strP1 = newVal;
             lstP1.setSelectedValue(strP1, true);
