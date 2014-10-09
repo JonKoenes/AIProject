@@ -22,7 +22,7 @@ public class GUI extends JPanel{
         private boolean blnXY = false;
         private boolean showSquares = false;
         private final int[] gridCoord = {328,225,154,84,14};      // x, y1, y2, y3, y4  (y1 is inner ring & y4 is outer ring)
-        private final int _SquareSelect = 50;        // size of square space at each intersection can select for move
+        private final int _SquareSelect = 40;        // size of square space at each intersection can select for move
         private final int _RingIntersect = 12;         // how many intersections for each ring
 	
 	public GUI(TicTacToe myGame) {
@@ -68,35 +68,10 @@ public class GUI extends JPanel{
             //create selection zones
             if (showSquares) {
                 for (int ring = 1; ring <= 4; ring++) {
-                    int radius = gridCoord[0] - gridCoord[ring];
-                    final double _ToRadians = Math.PI / 180;
-
                     for (int row = 0; row < _RingIntersect; row++) {
-                        int angle = (360 / _RingIntersect) * row;
-                        int quadrantX = 1, quadrantY = 1;
-                        int currRingY = 0, currRingX = 0;       // intersection (x, y) coordinates
-                        // find (x, y) of next intersection on current ring
-                        if (angle % 180 == 0) {
-                            quadrantY = 0;
-                            currRingX = radius;
-                            if (angle == 180)
-                                quadrantX = -1;
-                        } else if (angle % 90 == 0) {
-                            quadrantX = 0;
-                            currRingY = radius;
-                            if (angle == 90)
-                                quadrantY = -1;
-                        } else {
-                            // find b
-                            currRingX = (int) (Math.cos(angle * _ToRadians) * radius);
-                            // find a
-                            currRingY = (int) (Math.sin(angle * _ToRadians) * radius);
-                        }
-                        // find actual coordinates
-                        currRingX = gridCoord[0] + (currRingX * quadrantX) - (_SquareSelect / 2);
-                        currRingY = gridCoord[0] + (currRingY * quadrantY) - (_SquareSelect / 2);
+                        int[] rectXY = createSelectionSquares(ring, row);
                         g.setColor(Color.GREEN);
-                        g.drawRect(currRingX, currRingY, _SquareSelect, _SquareSelect);
+                        g.drawRect(rectXY[0], rectXY[1], _SquareSelect, _SquareSelect);                        
                     }
                 }
             }
@@ -120,6 +95,38 @@ public class GUI extends JPanel{
 			repaint();
 		}
 	}
+        
+        public int[] createSelectionSquares(int ring, int row) {
+            int[] rectXY = new int[2];
+            int radius = gridCoord[0] - gridCoord[ring];
+            final double _ToRadians = Math.PI / 180;
+
+            int angle = (360 / _RingIntersect) * row;
+            int quadrantX = 1, quadrantY = 1;
+            int currRingY = 0, currRingX = 0;       // intersection (x, y) coordinates
+            // find (x, y) of next intersection on current ring
+            if (angle % 180 == 0) {
+                quadrantY = 0;
+                currRingX = radius;
+                if (angle == 180)
+                    quadrantX = -1;
+            } else if (angle % 90 == 0) {
+                quadrantX = 0;
+                currRingY = radius;
+                if (angle == 90)
+                    quadrantY = -1;
+            } else {
+                // find b
+                currRingX = (int) (Math.cos(angle * _ToRadians) * radius);
+                // find a
+                currRingY = (int) (Math.sin(angle * _ToRadians) * radius);
+            }
+            // find actual coordinates
+            rectXY[0] = gridCoord[0] + (currRingX * quadrantX) - (_SquareSelect / 2);
+            rectXY[1] = gridCoord[0] + (currRingY * quadrantY) - (_SquareSelect / 2);
+
+            return rectXY;
+        }
         
         public void SetViewSelectionSquares (boolean newValue) {
             showSquares = newValue;
