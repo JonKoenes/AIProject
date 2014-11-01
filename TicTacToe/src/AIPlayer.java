@@ -10,13 +10,14 @@
  */
 public class AIPlayer implements IPlayer {
 
-    
-    @Override
-    public Node play(Node[] choices){
-        System.out.println("AI played");
-        return choices[0];
-    }
-    public void update(Node picked){
-        
-    }
+	@Override
+	public Node play(Node[] choices) {
+		System.out.println("AI played");
+		return choices[0];
+	}
+
+	@Override
+	public void update(Node picked) {
+
+	}
 }

@@ -9,30 +9,30 @@
  * @author f93x834
  */
 public class HumanPlayer implements IPlayer {
-    
-    private boolean notified = false;
-    private Node choice = null;
-    
-    @Override
-    public Node play(Node[] choices){
-        
-        
-        boolean done = false;
-        notified = false;
-        while(!done){
-            System.out.print("");
-            if(notified){
-                done = true;
-                System.out.println("I was notified successfully");
-            }
-        }
-        
-        return choice;
-    }
-    
-    public void update(Node picked){
-        System.out.println("Player was updated");
-        notified = true;
-        choice = picked;
-    }
+
+	private boolean notified = false;
+	private Node choice = null;
+
+	@Override
+	public Node play(Node[] choices) {
+
+		boolean done = false;
+		notified = false;
+		while (!done) {
+			System.out.print("");
+			if (notified) {
+				done = true;
+				System.out.println("I was notified successfully");
+			}
+		}
+
+		return choice;
+	}
+
+	@Override
+	public void update(Node picked) {
+		System.out.println("Player was updated");
+		notified = true;
+		choice = picked;
+	}
 }
