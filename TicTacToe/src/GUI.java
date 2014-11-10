@@ -34,7 +34,7 @@ public class GUI extends JPanel {
 											// ring
 	private IPlayer[] subscribers;
 	private Node[] playableNodes, playedNodes;
-
+	private Node clickedOn;
 	public GUI(TicTacToe myGame) {
 		setPreferredSize(new Dimension(660, 660));
 		addMouseListener(new MSMouseListener());
@@ -122,6 +122,13 @@ public class GUI extends JPanel {
                             }
 			}
 		}
+		
+		if(clickedOn != null){
+			int[] coord = clickedOn.getCoord();
+			int[] rectXY = createSelectionSquares(coord[0], coord[1]);
+			g.setColor(Color.BLUE);
+			g.drawRect(rectXY[0] + 5, rectXY[1] + 5, _SquareSelect - 10, _SquareSelect - 10);
+		}
 
 		// ************TEMP************
 	}
@@ -143,7 +150,18 @@ public class GUI extends JPanel {
 				int[] rectXY = createSelectionSquares(coord[0], coord[1]);
 				if (p1X >= rectXY[0] && p1X < rectXY[0] + _SquareSelect
 						&& p1Y >= rectXY[1] && p1Y < rectXY[1] + _SquareSelect) {
-					updatee = playableNodes[i];
+					if(clickedOn == null){
+						clickedOn = playableNodes[i];
+						repaint();
+					}
+					else if(clickedOn.getId() == playableNodes[i].getId()){
+						updatee = clickedOn;
+						clickedOn = null;
+					}
+					else{
+						clickedOn = playableNodes[i];
+						repaint();
+					}
 				}
 			}
 			if (updatee != null) {
