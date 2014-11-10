@@ -135,7 +135,7 @@ public class GUI extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 			p1X = e.getX(); // get x mouse coord
 			p1Y = e.getY(); // get y mouse coord
-			System.out.println("X: " + p1X + "  Y: " + p1Y);
+			//System.out.println("X: " + p1X + "  Y: " + p1Y);
 
 			Node updatee = null;
 			for (int i = 0; i < playableNodes.length && playableNodes[i] != null; i++) {
@@ -149,7 +149,7 @@ public class GUI extends JPanel {
 			if (updatee != null) {
 				for (int i = 0; i < subscribers.length; i++) {
 					if (subscribers[i] != null) {
-						System.out.println("Sent and update to " + i);
+						//System.out.println("Sent and update to " + i);
 						subscribers[i].update(updatee);
 					}
 				}

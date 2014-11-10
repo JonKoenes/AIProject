@@ -22,7 +22,7 @@ public class HumanPlayer implements IPlayer {
 			System.out.print("");
 			if (notified) {
 				done = true;
-				System.out.println("I was notified successfully");
+				//System.out.println("I was notified successfully");
 			}
 		}
 
@@ -32,6 +32,7 @@ public class HumanPlayer implements IPlayer {
 	@Override
 	public void update(Node picked) {
 		System.out.println("Player was updated");
+		System.out.print("");
 		notified = true;
 		choice = picked;
 	}
