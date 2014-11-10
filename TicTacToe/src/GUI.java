@@ -133,18 +133,6 @@ public class GUI extends JPanel {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
 			p1X = e.getX(); // get x mouse coord
 			p1Y = e.getY(); // get y mouse coord
 			System.out.println("X: " + p1X + "  Y: " + p1Y);
@@ -168,6 +156,19 @@ public class GUI extends JPanel {
 			}
 
 			repaint();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
 		}
 	}
 

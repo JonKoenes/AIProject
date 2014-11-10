@@ -249,7 +249,13 @@ public class TicTacToe implements ItemListener {
 	}
 
 	private boolean winCheck() {
-		return false;
+		for(int i = 0; i < playedNodes.length; i++){
+			if(playedNodes[i] == null){
+				return false;
+			}
+		}
+		JOptionPane.showMessageDialog(null, "It's a cat game!", "Tie", 0);
+		return true;
 	}
         
         public void update(Node lastPlayed){
