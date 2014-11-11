@@ -44,9 +44,7 @@ public class Resolution {
 		}
 		//go through facts to see if the goal is a fact
 				for(int i = 0; i < facts.size(); i++){
-					System.out.println("Checking if " + goal + " is equal to fact" + facts.get(i));
 					if(goal.equals(facts.get(i))){
-						System.out.println("Found " + goal + " as a fact");
 						return true;
 					}
 				}
@@ -94,7 +92,7 @@ public class Resolution {
 		String newClause;
 		if(newFact != null){
 			newClause = makeFact(newFact);
-			System.out.println("Added New Fact " + newClause);
+			//System.out.println("Added New Fact " + newClause);
 			facts.add(newClause);
 		
 			//add new clauses when our fact is unified with the given rules for a win
@@ -107,16 +105,9 @@ public class Resolution {
 				
 				theta = unify(newClause, ruleClause, theta);
 				
-				for(int k = 0; k < theta.length; k++){
-					for(int j = 0; j < 2; j++){
-						System.out.print("" + theta[k][j] + " ");
-					}
-					System.out.println();
-				}
-				
 				if(theta[0][0] == null || !theta[0][0].equals("failure")){
 					String unified = applyUnification(newClause, rules.get(i), theta);
-					System.out.println("Adding Clause " + unified);
+					//System.out.println("Adding Clause " + unified);
 					clauses.add(unified);
 				}
 			}
@@ -237,15 +228,10 @@ public class Resolution {
 		String newSentence = "";
 		for(int i = 1; i < substitution.length; i++){
 			if(substitution[i][0] != null){
-				System.out.println(sen1);
 				sen1 = sen1.replaceAll(substitution[i][0], substitution[i][1]);
-				System.out.println(sen1);
-				System.out.println(sen2 + " " + substitution[i][0] + " " + substitution[i][1]);
 				sen2 = sen2.replaceAll(substitution[i][0], substitution[i][1]);
-				System.out.println(sen2);
 			}
 		}
-		System.out.println(sen1 + " and " + sen2);
 		
 		//clean up the clauses
 		if(sen1.length() < sen2.length()){
