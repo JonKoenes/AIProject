@@ -223,7 +223,6 @@ public class TicTacToe implements ItemListener {
                     myGUI.addSubscriber(p1);
                     myGUI.addSubscriber(p2);
                     // myGUI.addSubscriber(this);
-                    Resolution.setRules();
 
                     Node justPlayed = null;
 
@@ -250,29 +249,10 @@ public class TicTacToe implements ItemListener {
 	}
 
 	private boolean winCheck() {
-		String winner = Resolution.resolutionWinCheck();
-		if(winner.equals("X")){
-			JOptionPane.showMessageDialog(null, "X wins the game!", "Winner", 0);
-			return true;
-		}
-		else if(winner.equals("O")){
-			JOptionPane.showMessageDialog(null, "O wins the game!", "Winner", 0);
-			return true;
-		}
-		else{
-			for(int i = 0; i < playedNodes.length; i++){
-				if(playedNodes[i] == null){
-					return false;
-				}
-			}
-			
-			JOptionPane.showMessageDialog(null, "It's a cat game!", "Tie", 0);
-		}
-		return true;
+		return false;
 	}
         
         public void update(Node lastPlayed){
-        	Resolution.addFact(lastPlayed);
             int playedNodesIndex = 0;
             playedNodes = new Node[48];
             
@@ -384,7 +364,6 @@ public class TicTacToe implements ItemListener {
                 newGame = true;
                
                 runningGame.stop();
-                Resolution.reset();
                 
                 myGame.playerSelection();
                 myGame.playGame();
