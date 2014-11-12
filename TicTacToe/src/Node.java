@@ -65,4 +65,14 @@ public class Node {
             return ret;
         }
 
+        @Override
+        public String toString() {
+        	String r = "";
+        	
+        	
+        	r += "("+ring+","+radial+") : "+getChar();
+        	
+            return r;
+        }
+
 }
