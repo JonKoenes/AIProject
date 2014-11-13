@@ -313,27 +313,27 @@ public class Resolution {
 		System.out.println("Setting up rules");
 		//vertical wins across a radial
 		rules.add("at(player,ring,radial)&at(player,ring-1,radial)&at(player,ring-2,radial)&at(player,ring-3,radial)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+1,radial)&at(player,ring-1,radial)&at(player,ring-2,radial)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+2,radial)&at(player,ring+1,radial)&at(player,ring-1,radial)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+3,radial)&at(player,ring+2,radial)&at(player,ring+1,radial)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+1,radial)&at(player,ring-1,radial)&at(player,ring-2,radial)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+2,radial)&at(player,ring+1,radial)&at(player,ring-1,radial)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+3,radial)&at(player,ring+2,radial)&at(player,ring+1,radial)|win(player)");
 		
 		//horizontal wins across a ring
 		rules.add("at(player,ring,radial)&at(player,ring,radial-1)&at(player,ring,radial-2)&at(player,ring,radial-3)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring,radial+1)&at(player,ring,radial-1)&at(player,ring,radial-2)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring,radial+2)&at(player,ring,radial+1)&at(player,ring,radial-1)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring,radial+3)&at(player,ring,radial+2)&at(player,ring,radial+1)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring,radial+1)&at(player,ring,radial-1)&at(player,ring,radial-2)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring,radial+2)&at(player,ring,radial+1)&at(player,ring,radial-1)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring,radial+3)&at(player,ring,radial+2)&at(player,ring,radial+1)|win(player)");
 		
 		//spiral wins across rings and radials 
 		rules.add("at(player,ring,radial)&at(player,ring-1,radial-1)&at(player,ring-2,radial-2)&at(player,ring-3,radial-3)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+1,radial+1)&at(player,ring-1,radial-1)&at(player,ring-2,radial-2)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+2,radial+2)&at(player,ring+1,radial+1)&at(player,ring-1,radial-1)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+3,radial+3)&at(player,ring+2,radial+2)&at(player,ring+1,radial+1)|win(player)");
-		
+//		rules.add("at(player,ring,radial)&at(player,ring+1,radial+1)&at(player,ring-1,radial-1)&at(player,ring-2,radial-2)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+2,radial+2)&at(player,ring+1,radial+1)&at(player,ring-1,radial-1)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+3,radial+3)&at(player,ring+2,radial+2)&at(player,ring+1,radial+1)|win(player)");
+//		
 		//the other spiral
 		rules.add("at(player,ring,radial)&at(player,ring-1,radial+1)&at(player,ring-2,radial+2)&at(player,ring-3,radial+3)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+1,radial-1)&at(player,ring-1,radial+1)&at(player,ring-2,radial+2)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+2,radial-2)&at(player,ring+1,radial-1)&at(player,ring-1,radial+1)|win(player)");
-		rules.add("at(player,ring,radial)&at(player,ring+3,radial-3)&at(player,ring+2,radial-2)&at(player,ring+1,radial-1)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+1,radial-1)&at(player,ring-1,radial+1)&at(player,ring-2,radial+2)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+2,radial-2)&at(player,ring+1,radial-1)&at(player,ring-1,radial+1)|win(player)");
+//		rules.add("at(player,ring,radial)&at(player,ring+3,radial-3)&at(player,ring+2,radial-2)&at(player,ring+1,radial-1)|win(player)");
 	}
 	
 	public static void reset(){
