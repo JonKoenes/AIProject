@@ -181,7 +181,7 @@ public class TicTacToe implements ItemListener {
 		if (choice.equals("Human")) {
 			p1 = new HumanPlayer();
 		} else {
-			p1 = new AIPlayer();
+			p1 = new AIPlayer('x');
 		}
 
 		choice = (String) JOptionPane.showInputDialog(null,
@@ -190,7 +190,7 @@ public class TicTacToe implements ItemListener {
 		if (choice.equals("Human")) {
 			p2 = new HumanPlayer();
 		} else {
-			p2 = new AIPlayer();
+			p2 = new AIPlayer('o');
 		}
 	}
 
@@ -289,6 +289,7 @@ public class TicTacToe implements ItemListener {
             for(int i = 0; i < playedNodesIndex; i++){
                 Node[] neighbors = playedNodes[i].getNeighbors();
                 for(int j = 0; j < neighbors.length; j++){
+                  	if ( neighbors[j] == null ) continue;
                     if(!neighbors[j].getValue()){
                         boolean inlist = false;
                         for(int k = 0; k < playableIndex; k++){
@@ -329,19 +330,33 @@ public class TicTacToe implements ItemListener {
                 for(int j = 0; j < gameBoard[i].length; j++){
                     
                     if(j - 1 >= 0){
-                        gameBoard[i][j].addNeighbor(gameBoard[(i+1)%12][j-1]);
-                        gameBoard[i][j].addNeighbor(gameBoard[i][j-1]);
-                        gameBoard[i][j].addNeighbor(gameBoard[(i+11)%12][j-1]);
+                    	gameBoard[i][j].addNeighbor(gameBoard[(i+1)%12][(j+3)%4]);
+                    	gameBoard[i][j].addNeighbor(gameBoard[i][(j+3)%4]);
+                    	gameBoard[i][j].addNeighbor(gameBoard[(i+11)%12][(j+3)%4]);
                     }
+                    //*
+                    else {
+                    	gameBoard[i][j].addNeighbor(null);
+                    	gameBoard[i][j].addNeighbor(null);
+                    	gameBoard[i][j].addNeighbor(null);
+                    }
+                    /* */
                     //middle
                     gameBoard[i][j].addNeighbor(gameBoard[(i+1)%12][j]);
                     gameBoard[i][j].addNeighbor(gameBoard[(i+11)%12][j]);
                         
                     if(j + 1 < 4){
-                        gameBoard[i][j].addNeighbor(gameBoard[(i+1)%12][j+1]);
-                        gameBoard[i][j].addNeighbor(gameBoard[i][j+1]);
-                        gameBoard[i][j].addNeighbor(gameBoard[(i+11)%12][j+1]);
-                    }              
+                    	gameBoard[i][j].addNeighbor(gameBoard[(i+1)%12][(j+1)%4]);
+                    	gameBoard[i][j].addNeighbor(gameBoard[i][(j+1)%4]);
+                    	gameBoard[i][j].addNeighbor(gameBoard[(i+11)%12][(j+1)%4]);
+                    }
+                    //*
+                    else {
+                    	gameBoard[i][j].addNeighbor(null);
+                    	gameBoard[i][j].addNeighbor(null);
+                    	gameBoard[i][j].addNeighbor(null);
+                    }
+                    /* */         
                 }
             }
         }

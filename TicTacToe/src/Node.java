@@ -51,18 +51,29 @@ public class Node {
 	public boolean getValue() {
 		return played;
 	}
-        
-        public void addNeighbor(Node neighbor){
-            neighbors[neighNum] = neighbor;
-            neighNum++;
+    
+    public void addNeighbor(Node neighbor){
+        neighbors[neighNum] = neighbor;
+        neighNum++;
+    }
+    
+    public Node[] getNeighbors(){
+        Node[] ret = new Node[neighNum];
+        for(int i = 0; i < ret.length; i++){
+            ret[i] = neighbors[i];
         }
-        
-        public Node[] getNeighbors(){
-            Node[] ret = new Node[neighNum];
-            for(int i = 0; i < ret.length; i++){
-                ret[i] = neighbors[i];
-            }
-            return ret;
-        }
+        return ret;
+    }
+    
+    
+    @Override
+    public String toString() {
+    	String r = "";
+    	
+    	
+    	r += "("+ring+","+radial+") : "+getChar();
+    	
+        return r;
+    }
 
 }
