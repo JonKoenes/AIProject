@@ -31,7 +31,7 @@ public class AIPlayer implements IPlayer {
 		
 		//* Heuristic #3
 		heur = new Heuristic1();
-		RATIO_OF_OPP_TO_PLAYER = 1.0;
+		RATIO_OF_OPP_TO_PLAYER = 0.95;
 		/* */
 		
 		/* Heuristic #4

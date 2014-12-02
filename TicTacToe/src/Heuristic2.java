@@ -13,13 +13,16 @@ public class Heuristic2 implements IHeuristic {
 		
 		double value = 0.0;
 		int count[] = {0,0,0,0};
+		int adjCount[] = {0,0,0,0};
 		int width[] = {0,0,0,0};
 		int indexes[] = {0,1,2,3,3,2,1,0};
+		int inARow = 0;
 		if ( DEBUG >= 1 ) System.out.println("Root: "+root+" Searching for "+sym);
 		
 		Node[] neighbors = root.getNeighbors();
 		Node cur;
 		for ( int i = 0; i < 8; i++ ) {
+			inARow = 0;
 					
 			// Check one space out
 			if ( neighbors.length <= i ) continue;
@@ -30,6 +33,10 @@ public class Heuristic2 implements IHeuristic {
 			if ( cur.getChar() == sym ) {
 				if ( DEBUG >= 2 ) System.out.println("1 -> "+sym+" to Index "+indexes[i]);
 				count[indexes[i]]++;
+				if ( inARow == 0 ) {
+					adjCount[indexes[i]]++;
+					inARow++;
+				}
 			}
 			else if ( cur.getChar() == 'n' ) {  }
 			else {
@@ -46,6 +53,10 @@ public class Heuristic2 implements IHeuristic {
 			if ( cur.getChar() == sym ) {
 				if ( DEBUG >= 2 ) System.out.println("1 -> "+sym+" to Index "+indexes[i]);
 				count[indexes[i]]++;
+				if ( inARow == 1 ) {
+					adjCount[indexes[i]]++;
+					inARow++;
+				}
 			}
 			else if ( cur.getChar() == 'n' ) {  }
 			else {
@@ -62,6 +73,10 @@ public class Heuristic2 implements IHeuristic {
 			if ( cur.getChar() == sym ) {
 				if ( DEBUG >= 2 ) System.out.println("1 -> "+sym+" to Index "+indexes[i]);
 				count[indexes[i]]++;
+				if ( inARow == 2 ) {
+					adjCount[indexes[i]]++;
+					inARow++;
+				}
 			}
 			else if ( cur.getChar() == 'n' ) {  }
 			else {
@@ -70,6 +85,12 @@ public class Heuristic2 implements IHeuristic {
 			width[indexes[i]]++;
 			
 		}
+		
+		// Check for Immediate wins
+		for ( int i = 0; i < adjCount.length; i++ ) {
+			if ( adjCount[i] >= 3 ) return 9001.0;
+		}
+		
 		// Sum up the counts
 		double best = 0.0;
 		for ( int i = 0; i < count.length; i++ ) {
