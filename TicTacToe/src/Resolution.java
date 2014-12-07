@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
-
+/**
+ * 
+ * @author Jonathan Koenes, Adam Bartz, Stephen Bush
+ *
+ */
 public class Resolution {
 	
 	private static ArrayList<String> facts = new ArrayList<String>();
@@ -28,7 +32,7 @@ public class Resolution {
 			return true;
 		}
 		
-		System.out.println("Backchaining on " + goal);
+		//System.out.println("Backchaining on " + goal);
 		
 		//break apart multiple list into separate clauses and backchain separately
 		if(goal.contains("&")){

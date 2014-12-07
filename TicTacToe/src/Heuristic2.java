@@ -1,6 +1,10 @@
 
 
-
+/**
+ * 
+ * @author Jonathan Koenes, Adam Bartz, Stephen Bush
+ *
+ */
 public class Heuristic2 implements IHeuristic {
 
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
@@ -83,6 +87,34 @@ public class Heuristic2 implements IHeuristic {
 		if ( DEBUG >= 1 ) System.out.println("Got "+value);		
 		return best;
 		
+	}
+
+
+	@Override
+	public double evaluateState(Node[] state, char inChar) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int getParameter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void setParameter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String[] getStatus() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

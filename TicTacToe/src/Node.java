@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author f93x834
+ * @author Jonathan Koenes, Adam Bartz, Stephen Bush
  */
 public class Node {
 
@@ -20,8 +20,8 @@ public class Node {
 	private char character = 'n';
 	private boolean played;
         private Node[] neighbors = new Node[8];
-        private int neighNum = 0;
-
+        private int neighNum = 0;  
+        
 	public Node(int ring, int radial,int id) {
 		this.ring = ring;
 		this.radial = radial;
@@ -64,7 +64,6 @@ public class Node {
         }
         return ret;
     }
-    
     
     @Override
     public String toString() {
