@@ -9,6 +9,7 @@ public interface IPlayer {
 
 	public void update(Node picked);
 	
+
 	public void setBoard(Node[][] board);
 
 }

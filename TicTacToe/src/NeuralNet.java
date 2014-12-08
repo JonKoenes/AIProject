@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +29,10 @@ public class NeuralNet implements IHeuristic {
 	private static double[] hiddenOutput = new double[numHiddenNodes]; //holds the outputs for the hidden layer
 	private static double[] outputError = new double[numOutputs];
 	private static double[] hiddenError = new double[numHiddenNodes];
+	
+	public NeuralNet() {
+		loadWeightsFromFile();
+	}
 	
 	//input modeled after TD Gammon
 	public static void setInput(Node[] gameboard, char side){
@@ -427,11 +432,22 @@ public class NeuralNet implements IHeuristic {
 	}
 	
 	public static void loadWeightsFromFile(){
-		File input = new File(".data\\nnsave40_110000newLR");
-		Scanner reader;
+		File input = null;
+		Scanner reader = null;
+		try {
+			input = new File(".data\\nnsave40_110000newLR");
+			reader = new Scanner(input);
+		} catch ( java.io.FileNotFoundException e ) {
+			try {
+				input = new File(".data/nnsave40_110000newLR");
+				reader = new Scanner(input);
+			} catch ( java.io.FileNotFoundException e1 ) {
+				e1.printStackTrace();
+				System.out.println("shit happened");
+			}
+		}
 		
 		try{
-			reader = new Scanner(input);
 			String[] line = reader.nextLine().split(",");
 			numInputs = Integer.parseInt(line[0]);
 			numHiddenNodes = Integer.parseInt(line[1]);
@@ -477,7 +493,6 @@ public class NeuralNet implements IHeuristic {
 
 	@Override
 	public double evaluateState(Node[] state, char inChar) {
-		loadWeightsFromFile();
 		setInput(state, inChar);
 		calculateNetwork();
 		return output[0];

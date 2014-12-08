@@ -47,6 +47,7 @@ public class AIPlayer implements IPlayer {
 				heur = new Classifier();
 				heur.setParameter();
 				break;
+								
 			default:
             heur = new Heuristic1();
             RATIO_OF_OPP_TO_PLAYER = 0.95;
@@ -65,7 +66,29 @@ public class AIPlayer implements IPlayer {
 	public Node play(Node[] choices, Node[] state) {
 		Node best = choices[0];
 		
-		/* Method #1 -- Greedy Heuristic
+		
+		
+		//* Method #2 -- MinMaxTree
+		if ( type == 't') {
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false);
+			best = tree.evaluateTree(5, 10000);
+		}
+		/* */
+		
+		//* Method #2 -- MinMaxTree
+		if ( type == 'T') {
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true);
+			best = tree.evaluateTree(5, 10000);
+		}
+		/* */
+
+		if ( type == 'r') {
+			int i = 0;
+			for (; i < choices.length && choices[i] != null; i++ ) { }
+			return choices[(int)(Math.random()*i)];
+		}
+
+		//* Method #1 -- Greedy Heuristic
 		best = choices[0];
 		double bestVal = 0;
 		
@@ -182,7 +205,7 @@ public class AIPlayer implements IPlayer {
 			}
 			
 			
-			else{
+			else if ( type == '1' ){
 				temp1 = heur.evaluateState(n,mySym);
 				temp2 = heur.evaluateState(n,enSym);
 				temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
@@ -193,13 +216,7 @@ public class AIPlayer implements IPlayer {
 			}
 		}
 		System.out.println("AI played >> Bv = "+bestVal);
-		/* */
-		
-		//* Method #2 -- MinMaxTree
-		MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true);
-		best = tree.evaluateTree(5, 10000);
-		/* */
-		
+		/* */		
 		
 		return best;
 	}

@@ -174,7 +174,7 @@ public class TicTacToe implements ItemListener {
 	}
 
 	public void playerSelection() {
-		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet" };
+		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet","AI: MinMaxTree","AI: MinMaxTree (Alpha-Beta Pruning)","Random" };
 		String choice = null;
 		while (choice == null) {
 			choice = (String) JOptionPane.showInputDialog(null,
@@ -196,8 +196,14 @@ public class TicTacToe implements ItemListener {
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else if(choice.equals("AI: NeuralNet"))											// neural net
+				else if(choice.equals("AI: NeuralNet"))			// neural net
 					type = 'n';
+				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
+					type = 't';
+				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+					type = 'T';
+				else if(choice.equals("Random"))				// Random player
+					type = 'r';
 				p1 = new AIPlayer('x', type,gameBoard);
 			}
 		}
@@ -223,8 +229,14 @@ public class TicTacToe implements ItemListener {
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else if(choice.equals("AI: NeuralNet"))											// neural net
+				else if(choice.equals("AI: NeuralNet"))			// neural net
 					type = 'n';
+				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
+					type = 't';
+				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+					type = 'T';
+				else if(choice.equals("Random"))				// Random player
+					type = 'r';
 				p2 = new AIPlayer('o', type,gameBoard);
 			}
 		}
@@ -249,7 +261,7 @@ public class TicTacToe implements ItemListener {
                     allnodes = makeNodes();
                     setNeighbors();
                     
-                    p1.setBoard(gameBoard);;
+                    p1.setBoard(gameBoard);
                     p2.setBoard(gameBoard);
                     
                     printboard();
