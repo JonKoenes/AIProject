@@ -181,7 +181,7 @@ public class TicTacToe implements ItemListener {
 		if (choice.equals("Human")) {
 			p1 = new HumanPlayer();
 		} else {
-			p1 = new AIPlayer('x');
+			p1 = new AIPlayer('x',gameBoard);
 		}
 
 		choice = (String) JOptionPane.showInputDialog(null,
@@ -190,7 +190,7 @@ public class TicTacToe implements ItemListener {
 		if (choice.equals("Human")) {
 			p2 = new HumanPlayer();
 		} else {
-			p2 = new AIPlayer('o');
+			p2 = new AIPlayer('o',gameBoard);
 		}
 	}
 
@@ -212,6 +212,10 @@ public class TicTacToe implements ItemListener {
                     newGame = false;
                     allnodes = makeNodes();
                     setNeighbors();
+                    
+                    p1.setBoard(gameBoard);
+                    p2.setBoard(gameBoard);
+                    
                     printboard();
                     playedNodes = new Node[48];
                     playableNodes = allnodes;

@@ -6,7 +6,7 @@ public class Heuristic1 implements IHeuristic {
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
 	private static double VALUE_OF_2ND_SPACE = 3.0; 
 	private static double VALUE_OF_3RD_SPACE = 9.0; 
-	private final int DEBUG = 2;
+	private final int DEBUG = 0;
 
 	
 	public double evaluateState(Node root, char sym) {
@@ -88,7 +88,7 @@ public class Heuristic1 implements IHeuristic {
 		
 		// Check for Immediate wins
 		for ( int i = 0; i < adjCount.length; i++ ) {
-			if ( adjCount[i] >= 3 ) return 9001.0;
+			if ( adjCount[i] >= 3 ) value += 9000.0;
 		}
 		
 		// Sum up the counts

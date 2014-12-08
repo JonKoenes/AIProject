@@ -18,8 +18,9 @@ public class AIPlayer implements IPlayer {
 	private IHeuristic heur;
 	private char mySym;
 	private char enSym;
+	private Node[][] gameBoard;
 	
-	public AIPlayer(char sym) {
+	public AIPlayer(char sym, Node[][] board) {
 		mySym = sym;
 		if ( mySym == 'x' ) {
 			enSym = 'o';
@@ -27,6 +28,8 @@ public class AIPlayer implements IPlayer {
 		else {
 			enSym = 'x';
 		}
+		
+		gameBoard = board;
 		
 		
 		//* Heuristic #3
@@ -43,7 +46,11 @@ public class AIPlayer implements IPlayer {
 	
 	@Override
 	public Node play(Node[] choices) {
-		Node best = choices[0];
+		Node best = null;
+		
+
+		/* Method #1 -- Greedy Heuristic
+		best = choices[0];
 		double bestVal = 0;
 		
 		double temp,temp1,temp2;
@@ -61,11 +68,25 @@ public class AIPlayer implements IPlayer {
 			}
 		}
 		System.out.println("AI played >> Bv = "+bestVal);
+		/* */
+		
+		//* Method #2 -- MinMaxTree
+		MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true);
+		best = tree.evaluateTree(5, 10000);
+		/* */
+		
+		
 		return best;
 	}
 
 	@Override
 	public void update(Node picked) {
 
+	}
+	
+	public void setBoard(Node[][] board) {
+		
+		gameBoard = board;
+		
 	}
 }
