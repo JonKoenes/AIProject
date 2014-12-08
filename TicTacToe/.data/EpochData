@@ -1,0 +1,78 @@
+1000 Games against random playing opponent:
+*********************************************
+60 Hidden Nodes
+60000 Epochs
+For X:652 wins and 348 losses
+For O:
+
+50000 Epochs
+For X:628 wins and 372 losses
+For O:
+
+40000 Epochs
+For X:590 wins and 410 losses
+For O:
+
+30000 Epochs
+For X:717 wins and 283 losses
+For O:
+
+20000 Epochs
+For X:726 wins and 274 losses
+For O:
+
+10000 Epochs
+For X:714 wins and 286 losses
+For O:
+
+
+
+*********************************************
+40 Hidden Nodes
+110000 Epochs 0.1 LR
+For X:588 wins and 412 losses
+For O:766 wins and 234 losses
+
+100000 Epochs
+For X:599 wins and 401 losses
+For O:769 wins and 231 losses
+
+90000 Epochs 0.01 LR
+For X:578 wins and 422 losses
+For O:749 wins and 251 losses
+
+90000 Epochs 0.001 LR
+For X:597 wins and 403 losses
+For O:766 wins and 234 losses
+
+80000 Epochs
+For X:606 wins and 394 losses
+For O:765 wins and 235 losses
+
+70000 Epochs
+For X:585 wins and 415 losses
+For O:775 wins and 225 losses
+
+60000 Epochs
+For X:598 wins and 401 losses
+For O:791 wins and 209 losses
+
+50000 Epochs
+For X:712 wins and 288 losses
+For O:502 wins and 497 losses
+
+40000 Epochs
+For X:710 wins and 289 losses
+For O:447 wins and 552 losses
+
+30000 Epochs
+For X:725 wins and 275 losses
+For O:474 wins and 526 losses
+
+20000 Epochs
+For X:633 wins and 367 losses
+For O:407 wins and 592 losses
+
+10000 Epochs
+For X:590 wins and 410 losses
+For O:369 wins and 629 losses

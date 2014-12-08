@@ -27,12 +27,12 @@ import javax.swing.ListSelectionModel;
 /**
  * CSCI 446 AI, Semester Project - Polar Tic-Tac-Toe
  * 
- * @author Adam Bartz, Jonathan Koenes, Stephen Bush
+ * @author Stephen Bush, Jonathan Koenes, Adam Bartz
  */
 public class TicTacToe implements ItemListener {
 
 	private TicTacToe myGame;
-        private JFrame frame;
+    private JFrame frame;
 	private JList lstP1, lstP2; // list box of options for player types
 	private String strP1, strP2; // p1, p2 selected type
 	private IPlayer p1, p2;
@@ -43,10 +43,10 @@ public class TicTacToe implements ItemListener {
 	private GUI myGUI;
 	private JCheckBox chkSquares = new JCheckBox("View Selection Squares");
 	private int turn;
-        private static volatile boolean newGame = false, locked = false;
+    private static volatile boolean newGame = false, locked = false;
 	private Node[] allnodes, playedNodes, playableNodes;
-        private Node[][] gameBoard;
-        private Thread runningGame;
+    private Node[][] gameBoard;
+    private Thread runningGame;
 
 	public TicTacToe() {
             frame = new JFrame("PolarTic-Tac-Toe by " );
@@ -174,23 +174,59 @@ public class TicTacToe implements ItemListener {
 	}
 
 	public void playerSelection() {
-		Object[] options = { "Human", "AI" };
-		String choice = (String) JOptionPane.showInputDialog(null,
-				"Player 1 Selection", "Select:", JOptionPane.QUESTION_MESSAGE,
-				null, options, options[0]);
-		if (choice.equals("Human")) {
-			p1 = new HumanPlayer();
-		} else {
-			p1 = new AIPlayer('x',gameBoard);
+		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet" };
+		String choice = null;
+		while (choice == null) {
+			choice = (String) JOptionPane.showInputDialog(null,
+					"Player 1 Selection", "Select:", JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+
+			if (choice == null) {
+			    int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION);
+		        if (reply == JOptionPane.YES_OPTION)
+		          System.exit(0);
+
+			} else if (choice.equals("Human")) {
+				p1 = new HumanPlayer();
+			} else {
+				char type = '1';
+				if (choice.equals("AI: H1"))					// heuristic 1
+					type = '1';
+				else if (choice.equals("AI: H2"))				// heuristic 2
+					type = '2';
+				else if (choice.equals("AI: Classifier"))		// classifier
+					type = 'c';
+				else if(choice.equals("AI: NeuralNet"))											// neural net
+					type = 'n';
+				p1 = new AIPlayer('x', type,gameBoard);
+			}
 		}
 
-		choice = (String) JOptionPane.showInputDialog(null,
-				"Player 2 Selection", "Select:", JOptionPane.QUESTION_MESSAGE,
-				null, options, options[0]);
-		if (choice.equals("Human")) {
-			p2 = new HumanPlayer();
-		} else {
-			p2 = new AIPlayer('o',gameBoard);
+		choice = null;
+		while (choice == null) {
+			choice = (String) JOptionPane.showInputDialog(null,
+					"Player 2 Selection", "Select:", JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+			
+			if (choice == null) {
+			    int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION);
+		        if (reply == JOptionPane.YES_OPTION)
+		          System.exit(0);
+			
+			} else if (choice.equals("Human")) {
+				p2 = new HumanPlayer();
+			} else {
+				char type = '1';
+				if (choice.equals("AI: H1"))					// heuristic 1
+					type = '1';
+				else if (choice.equals("AI: H2"))				// heuristic 2
+					type = '2';
+				else if (choice.equals("AI: Classifier"))		// classifier
+					type = 'c';
+				else if(choice.equals("AI: NeuralNet"))											// neural net
+					type = 'n';
+				p2 = new AIPlayer('o', type,gameBoard);
+			}
 		}
 	}
 
@@ -213,7 +249,7 @@ public class TicTacToe implements ItemListener {
                     allnodes = makeNodes();
                     setNeighbors();
                     
-                    p1.setBoard(gameBoard);
+                    p1.setBoard(gameBoard);;
                     p2.setBoard(gameBoard);
                     
                     printboard();
@@ -234,13 +270,13 @@ public class TicTacToe implements ItemListener {
                     while (!newGame && !winCheck() ) {
 
                             if (turn == 1) {
-                                    justPlayed = p1.play(playableNodes);
+                                    justPlayed = p1.play(playableNodes, allnodes);
                                     System.out.println(turn + " just played");
                                     justPlayed.setValue(true);
                                     justPlayed.setXO('x');
                                     turn = 2;
                             } else if (turn == 2) {
-                                    justPlayed = p2.play(playableNodes);
+                                    justPlayed = p2.play(playableNodes, allnodes);
                                     System.out.println(turn + " just played");
                                     justPlayed.setValue(true);
                                     justPlayed.setXO('o');

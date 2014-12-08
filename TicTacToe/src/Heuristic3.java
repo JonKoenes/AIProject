@@ -39,5 +39,29 @@ public class Heuristic3 implements IHeuristic {
 		
 		return list;
 	}
+
+	@Override
+	public double evaluateState(Node[] state, char inChar) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getParameter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setParameter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String[] getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

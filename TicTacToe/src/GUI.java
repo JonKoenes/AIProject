@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 /**
  * CSCI 446 AI, Semester Project - Polar Tic-Tac-Toe
  * 
- * @author Adam Bartz, Jonathan Koenes, Stephen Bush
+ * @author Jonathan Koenes, Adam Bartz, Stephen Bush
  */
 
 public class GUI extends JPanel {

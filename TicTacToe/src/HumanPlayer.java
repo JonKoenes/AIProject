@@ -6,7 +6,7 @@
 
 /**
  *
- * @author f93x834
+ * @author Jonathan Koenes, Adam Bartz, Stephen Bush
  */
 public class HumanPlayer implements IPlayer {
 
@@ -16,7 +16,7 @@ public class HumanPlayer implements IPlayer {
 	
 
 	@Override
-	public Node play(Node[] choices) {
+	public Node play(Node[] choices, Node[] state) {
 
 		boolean done = false;
 		notified = false;
