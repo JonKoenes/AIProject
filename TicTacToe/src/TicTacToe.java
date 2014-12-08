@@ -174,7 +174,7 @@ public class TicTacToe implements ItemListener {
 	}
 
 	public void playerSelection() {
-		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier" };
+		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet" };
 		String choice = null;
 		while (choice == null) {
 			choice = (String) JOptionPane.showInputDialog(null,
@@ -189,14 +189,14 @@ public class TicTacToe implements ItemListener {
 			} else if (choice.equals("Human")) {
 				p1 = new HumanPlayer();
 			} else {
-				char type;
+				char type = '1';
 				if (choice.equals("AI: H1"))					// heuristic 1
 					type = '1';
 				else if (choice.equals("AI: H2"))				// heuristic 2
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else											// neural net
+				else if(choice.equals("AI: NeuralNet"))											// neural net
 					type = 'n';
 				p1 = new AIPlayer('x', type);
 			}
@@ -216,14 +216,14 @@ public class TicTacToe implements ItemListener {
 			} else if (choice.equals("Human")) {
 				p2 = new HumanPlayer();
 			} else {
-				char type;
+				char type = '1';
 				if (choice.equals("AI: H1"))					// heuristic 1
 					type = '1';
 				else if (choice.equals("AI: H2"))				// heuristic 2
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else											// neural net
+				else if(choice.equals("AI: NeuralNet"))											// neural net
 					type = 'n';
 				p2 = new AIPlayer('o', type);
 			}

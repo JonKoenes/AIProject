@@ -35,6 +35,11 @@ public class AIPlayer implements IPlayer {
 		
 		//* Heuristic #3
 		switch (type) {
+			case 'n':
+				heur = new NeuralNet();
+				heur.setParameter();
+				break;
+			
 			case 'c':
 				heur = new Classifier();
 				heur.setParameter();
@@ -100,6 +105,7 @@ public class AIPlayer implements IPlayer {
 						}
 					}
 				}
+
 				if (exchange) {
 					bestVal = temp;
 					best = n;
@@ -146,7 +152,31 @@ public class AIPlayer implements IPlayer {
 				nextState[n.getId()].setXO('n');
 			
 			// run heuristics
-			} else {
+			} 
+			//Neural Net Heuristic
+			if(type == 'n'){
+				if(mySym == 'x'){//maximizer
+					n.setXO('x');
+					temp = heur.evaluateState(state, mySym);
+					if(temp > bestVal){
+						best = n;
+						bestVal= temp;
+					}
+					n.setXO('n');
+				}
+				else{//minimizer
+					n.setXO('o');
+					temp = heur.evaluateState(state, mySym);
+					if(temp < bestVal){
+						best = n;
+						bestVal= temp;
+					}
+					n.setXO('n');
+				}
+			}
+			
+			
+			else{
 				temp1 = heur.evaluateState(n,mySym);
 				temp2 = heur.evaluateState(n,enSym);
 				temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
