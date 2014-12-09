@@ -150,7 +150,7 @@ public class AIPlayer implements IPlayer {
 			}
 
 			// save status
-			if (myStatus.length > 0) {
+			if (myStatus != null && myStatus.length > 0) {
 				try {
 					PrintWriter output = new PrintWriter("data/status.txt");
 					for (String getStatus: myStatus) {
