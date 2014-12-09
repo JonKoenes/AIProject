@@ -10,10 +10,17 @@ public class Heuristic1 implements IHeuristic {
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
 	private static double VALUE_OF_2ND_SPACE = 3.0; 
 	private static double VALUE_OF_3RD_SPACE = 9.0; 
-	private final int DEBUG = 0;
+	private final int DEBUG = 1;
 
 	
 	public double evaluateState(Node root, char sym) {
+		
+		if ( DEBUG >= 1 ) System.out.println("Evaluating..."+ root);
+		
+		if ( root.getChar() != 'n' ) {
+			if ( DEBUG >= 1 ) System.out.println("Not Available");		
+			return 0;
+		}
 		
 		double value = 0.0;
 		int count[] = {0,0,0,0};

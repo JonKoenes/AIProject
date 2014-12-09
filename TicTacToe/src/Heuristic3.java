@@ -8,7 +8,7 @@ public class Heuristic3 implements IHeuristic {
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
 	private static double VALUE_OF_2ND_SPACE = 3.0; 
 	private static double VALUE_OF_3RD_SPACE = 9.0;
-	private final int DEBUG = 0;
+	private final int DEBUG = 2;
 	
 	private static LinkedList<Node> list = null;
 
@@ -65,6 +65,7 @@ public class Heuristic3 implements IHeuristic {
 		
 		double sum = 0.0;
 		double temp = 0.0;
+		/*
 		for ( Node n : state ) {
 			temp = evaluateState(n,inChar);
 			if ( temp == 9000 ) return 9000;
@@ -72,6 +73,10 @@ public class Heuristic3 implements IHeuristic {
 			
 			sum += temp;
 		}
+		*/
+
+		sum = evaluateState(state[0],inChar);
+		
 		
 		return sum;
 	}

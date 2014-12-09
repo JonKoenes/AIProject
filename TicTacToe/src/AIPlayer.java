@@ -25,7 +25,7 @@ public class AIPlayer implements IPlayer {
 	private char enSym;
 	private char type;					// '1' = Heuristic1, '2' = Heuristic2, 'c' = classifier
 	private Node[][] gameBoard;
-	private char HType = '0';
+	private char HType = '3';
 
 	
 	public AIPlayer(char sym, char type, Node[][] board) {
@@ -43,6 +43,7 @@ public class AIPlayer implements IPlayer {
 		
 		switch (type) {
 		
+			//*
 			case 'T':
 			case 't':
 				// change priority
@@ -59,6 +60,7 @@ public class AIPlayer implements IPlayer {
 		        	System.out.println("Heuristic Set: Classifier");
 		        }
 			    break;
+			    /* */
 
 		
 			case 'n':
@@ -71,6 +73,11 @@ public class AIPlayer implements IPlayer {
 				heur.setParameter();
 				break;
 
+			case '3':
+				heur = new Heuristic3();
+				RATIO_OF_OPP_TO_PLAYER = 1.0;
+				break;
+				
 			case '2':
 				heur = new Heuristic2();
 				RATIO_OF_OPP_TO_PLAYER = 1.0;
@@ -192,12 +199,23 @@ public class AIPlayer implements IPlayer {
 			
 			
 			else{
-				temp1 = heur.evaluateState(n,mySym);
-				temp2 = heur.evaluateState(n,enSym);
-				temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
-				if (temp > bestVal ) {
-					best = n;
-					bestVal = temp;
+				System.out.println("Lolwut");
+				if ( type == '1' || type == '2' ) {
+					temp1 = heur.evaluateState(n,mySym);
+					temp2 = heur.evaluateState(n,enSym);
+					temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
+					if (temp > bestVal ) {
+						best = n;
+						bestVal = temp;
+					}
+				}
+				else if ( type == '3' ) {
+					temp1 = heur.evaluateState(n,mySym);
+					if (temp1 > bestVal ) {
+						best = n;
+						bestVal = temp1;
+					}
+					
 				}
 			}
 
