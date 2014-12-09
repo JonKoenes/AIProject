@@ -1,6 +1,6 @@
+import java.util.Random;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,8 +22,9 @@ public class AIPlayer implements IPlayer {
 	private char mySym;
 	private char enSym;
 	private char type;					// '1' = Heuristic1, '2' = Heuristic2, 'c' = classifier
+	private Node[][] gameBoard;
 	
-	public AIPlayer(char sym, char type) {
+	public AIPlayer(char sym, char type, Node[][] board) {
 		mySym = sym;
 		if ( mySym == 'x' ) {
 			enSym = 'o';
@@ -32,6 +33,8 @@ public class AIPlayer implements IPlayer {
 			enSym = 'x';
 		}
 		this.type = type;
+		
+		gameBoard = board;
 		
 		
 		//* Heuristic #3
@@ -53,8 +56,8 @@ public class AIPlayer implements IPlayer {
 				
 			case '1':
 			default:
-				heur = new Heuristic1();
-				RATIO_OF_OPP_TO_PLAYER = 1.0;
+            heur = new Heuristic1();
+            RATIO_OF_OPP_TO_PLAYER = 0.95;
 				break;
 		}
 	}
@@ -62,6 +65,31 @@ public class AIPlayer implements IPlayer {
 	@Override
 	public Node play(Node[] choices, Node[] state) {
 		Node best = choices[0];
+		
+		
+		
+		//* Method #2 -- MinMaxTree
+		if ( type == 't') {
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false);
+			best = tree.evaluateTree(5, 10000);
+		}
+		/* */
+		
+		//* Method #2 -- MinMaxTree
+		if ( type == 'T') {
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true);
+			best = tree.evaluateTree(5, 10000);
+		}
+		/* */
+
+		if ( type == 'r') {
+			int i = 0;
+			for (; i < choices.length && choices[i] != null; i++ ) { }
+			return choices[(int)(Math.random()*i)];
+		}
+
+		//* Method #1 -- Greedy Heuristic
+		best = choices[0];
 		double bestVal = 0;
 		String[] myStatus = null;
 		
@@ -164,11 +192,19 @@ public class AIPlayer implements IPlayer {
 
 		}
 		System.out.println("AI played >> Bv = "+bestVal);
+		/* */		
+		
 		return best;
 	}
 
 	@Override
 	public void update(Node picked) {
 
+	}
+	
+	public void setBoard(Node[][] board) {
+		
+		gameBoard = board;
+		
 	}
 }

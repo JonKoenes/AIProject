@@ -29,7 +29,7 @@ import javax.swing.JTextArea;
 /**
  * CSCI 446 AI, Semester Project - Polar Tic-Tac-Toe
  * 
- * @author Jonathan Koenes, Adam Bartz, Stephen Bush
+ * @author Stephen Bush, Jonathan Koenes, Adam Bartz
  */
 public class TicTacToe implements ItemListener {
 
@@ -44,10 +44,10 @@ public class TicTacToe implements ItemListener {
 	private JTextArea myStatusReport;
 
 	private int turn;
-        private static volatile boolean newGame = false, locked = false;
+    private static volatile boolean newGame = false, locked = false;
 	private Node[] allnodes, playedNodes, playableNodes;
-        private Node[][] gameBoard;
-        private Thread runningGame;
+    private Node[][] gameBoard;
+    private Thread runningGame;
 
 	public TicTacToe() {
             frame = new JFrame("PolarTic-Tac-Toe by " );
@@ -150,7 +150,7 @@ public class TicTacToe implements ItemListener {
 	}
 
 	public void playerSelection() {
-		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet" };
+		Object[] options = { "Human", "AI: H1", "AI: H2", "AI: Classifier", "AI: NeuralNet","AI: MinMaxTree","AI: MinMaxTree (Alpha-Beta Pruning)","Random" };
 		String choice = null;
 		while (choice == null) {
 			choice = (String) JOptionPane.showInputDialog(null,
@@ -172,9 +172,15 @@ public class TicTacToe implements ItemListener {
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else if(choice.equals("AI: NeuralNet"))											// neural net
+				else if(choice.equals("AI: NeuralNet"))			// neural net
 					type = 'n';
-				p1 = new AIPlayer('x', type);
+				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
+					type = 't';
+				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+					type = 'T';
+				else if(choice.equals("Random"))				// Random player
+					type = 'r';
+				p1 = new AIPlayer('x', type,gameBoard);
 			}
 		}
 
@@ -199,9 +205,15 @@ public class TicTacToe implements ItemListener {
 					type = '2';
 				else if (choice.equals("AI: Classifier"))		// classifier
 					type = 'c';
-				else if(choice.equals("AI: NeuralNet"))											// neural net
+				else if(choice.equals("AI: NeuralNet"))			// neural net
 					type = 'n';
-				p2 = new AIPlayer('o', type);
+				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
+					type = 't';
+				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+					type = 'T';
+				else if(choice.equals("Random"))				// Random player
+					type = 'r';
+				p2 = new AIPlayer('o', type,gameBoard);
 			}
 		}
 	}
@@ -217,6 +229,10 @@ public class TicTacToe implements ItemListener {
                     newGame = false;
                     allnodes = makeNodes();
                     setNeighbors();
+                    
+                    p1.setBoard(gameBoard);
+                    p2.setBoard(gameBoard);
+                    
                     printboard();
                     playedNodes = new Node[48];
                     playableNodes = allnodes;

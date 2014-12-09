@@ -12,6 +12,8 @@ public class HumanPlayer implements IPlayer {
 
 	private boolean notified = false;
 	private Node choice = null;
+	private Node[][] gameBoard;
+	
 
 	@Override
 	public Node play(Node[] choices, Node[] state) {
@@ -36,4 +38,6 @@ public class HumanPlayer implements IPlayer {
 		notified = true;
 		choice = picked;
 	}
+	
+	public void setBoard(Node[][] board) { }
 }
