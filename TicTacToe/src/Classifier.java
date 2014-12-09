@@ -35,7 +35,7 @@ public class Classifier implements IHeuristic{
 		int classification = 0;
 		for (Node myNode: state) {
 			int temp = classify(state, myNode);
-			classifications[myNode.getId()] = temp * priority; 		// save for status
+			classifications[myNode.getId()] = temp; 		// save for status
 			
 			if (classification != 3) {			// if classify as win, do not replace
 				if (temp == 3) {				
@@ -346,8 +346,10 @@ public class Classifier implements IHeuristic{
 	}
 
 	private void formatStatus() {
-		status = new String[23];
+		status = new String[11];
 		ArrayList<int[]> order = new ArrayList<int[]>();
+		
+		for ( int i = 0; i < status.length; i++ ) status[i] = "";
 		
 		// north quadrant
 		order.add(new int[]{35, 39, 43});

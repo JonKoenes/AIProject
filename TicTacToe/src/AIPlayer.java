@@ -56,8 +56,8 @@ public class AIPlayer implements IPlayer {
 				
 			case '1':
 			default:
-            heur = new Heuristic1();
-            RATIO_OF_OPP_TO_PLAYER = 0.95;
+				heur = new Heuristic1();
+				RATIO_OF_OPP_TO_PLAYER = 0.95;
 				break;
 		}
 	}
@@ -70,14 +70,15 @@ public class AIPlayer implements IPlayer {
 		
 		//* Method #2 -- MinMaxTree
 		if ( type == 't') {
-			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false);
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false,'n');
 			best = tree.evaluateTree(5, 10000);
 		}
 		/* */
 		
 		//* Method #2 -- MinMaxTree
+		System.out.println(type);
 		if ( type == 'T') {
-			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true);
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true,'n');
 			best = tree.evaluateTree(5, 10000);
 		}
 		/* */

@@ -12,6 +12,9 @@ public abstract class RootNode {
 	LinkedList<RootNode> children;
 	MinMaxTree tree;
 	char chr;
+	int heurType;
+	
+	static final int DEBUG_LEVEL = 0;
 
 	public RootNode(){}
 	public RootNode(Node inMove, RootNode inPar,MinMaxTree t) {
@@ -27,9 +30,18 @@ public abstract class RootNode {
 	//public abstract double evaluateHeuristic(Node in);
 	
 	public double evaluateHeuristic(Node in) {
-		IHeuristic h = new Heuristic3();
-
-		System.out.println("Evaluating Neutral Heurist >> "+move);
+		//IHeuristic h = new Heuristic3();
+		IHeuristic h = tree.getHeuristic();
+		
+		if ( DEBUG_LEVEL >= 2 ) System.out.println("Evaluating Neutral Heurist >> "+move);
+		
+		double val = h.evaluateState(tree.getAllNodes(),tree.getChar());
+		
+		return val;
+		
+		/*
+		
+		
 		
 		char opp;
 		if ( tree.getChar() == 'x' ) opp = 'o';
@@ -59,6 +71,8 @@ public abstract class RootNode {
 		return (mine-enem); 
 		//return (mine+enem); 
 		//return (mine+(enem*0.95)); 
+
+		 */
 
 	}
 	

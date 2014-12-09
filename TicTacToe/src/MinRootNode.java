@@ -9,8 +9,7 @@ public class MinRootNode extends RootNode {
 		inMove.setXO(chr);
 		value = evaluateHeuristic(inMove);
 
-		System.out.println(inMove);
-		System.out.println(value);
+		if ( DEBUG_LEVEL >= 1 ) System.out.println(inMove + ", "+value);
 		
 		inMove.setXO('n');
 
@@ -39,13 +38,13 @@ public class MinRootNode extends RootNode {
 		//beta = value;
 		beta = Double.MAX_VALUE;
 
-		System.out.println("Resolving: B-"+beta);
+		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: B-"+beta);
 		for ( RootNode n : children ) {
-			System.out.println(n.alpha);
+			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.alpha);
 			if ( n.alpha < beta ) beta = n.alpha;
 		}
 		
-		System.out.println("Resolved: B-"+beta);
+		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolved: B-"+beta);
 		if ( parent != null ) parent.resolveNode();
 	}	
 	
