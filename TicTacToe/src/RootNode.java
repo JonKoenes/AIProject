@@ -38,44 +38,28 @@ public abstract class RootNode {
 		double val = h.evaluateState(tree.getAllNodes(),tree.getChar());
 		
 		return val;
-		
-		/*
-		
-		
-		
-		char opp;
-		if ( tree.getChar() == 'x' ) opp = 'o';
-		else opp = 'x';
-
-		double mine = h.evaluateState(in, tree.getChar());
-		System.out.println("M:"+mine);
-		double enem = h.evaluateState(in, opp);
-		System.out.println("E:"+enem);
-		
-		//if ( mine >= 9000 ) mine = mine % 9000;
-		//if ( enem >= 9000 ) return -9000;
-		//return (enem/mine); 
-		//return (enem-mine); 
-		//return (mine+enem); 
-
-		if ( mine >= 9000 ) {
-			if ( tree.getChar() == chr ) return 9000;
-			else mine = mine % 9000;
-		}
-		if ( enem >= 9000 ) {
-			if ( tree.getChar() == opp ) return -9000;
-			else enem = enem % 9000;
-		}
-		
-		//return (mine/enem); 
-		return (mine-enem); 
-		//return (mine+enem); 
-		//return (mine+(enem*0.95)); 
-
-		 */
 
 	}
 	
 	public abstract void resolveNode();
+	
+	@Override
+	public String toString() {
+		String ret = "";
+		
+		if ( move != null ) ret += move.toString();
+		
+		if ( alpha != 0 ) {
+			ret += "   Alpha: "+alpha;
+		}
+		else if ( beta != 0 ) {
+			ret += "   Beta: "+beta;
+		}
+		else {
+			ret += "   Value: "+value;
+		}
+		
+		return ret;
+	}
 
 }

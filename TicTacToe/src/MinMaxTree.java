@@ -9,7 +9,7 @@ public class MinMaxTree {
 	private LinkedList<RootNode> queue;
 	RootNode root;
 	char HeuristicType;
-	static final int DEBUG_LEVEL = 0;
+	static final int DEBUG_LEVEL = 1;
 
 	
 	public MinMaxTree(Node[][] board, char c,boolean prune,char hType) {
@@ -30,7 +30,7 @@ public class MinMaxTree {
 		int dp;
 		while ( true ) {
 			current = queue.removeFirst();
-			if ( DEBUG_LEVEL >= 1 ) System.out.println("Evaluating.....");
+			if ( DEBUG_LEVEL >= 1 ) System.out.println("Evaluating.....  "+current+"  >>  "+current.parent);
 
 			// Mark the nodes
 			temp = current;
@@ -41,6 +41,15 @@ public class MinMaxTree {
 			
 			// Expand the tree
 			current.expandNode(getPlayableNodes());
+									
+			// Update the queue
+			if ( !current.pruned ) {
+				for ( RootNode n : current.children ) queue.add(n);
+			}
+			else {
+				System.out.println("Pruned "+current+" >> Parent: "+current.parent);
+			}
+			
 			
 			// Un-mark the nodes
 			temp = current;
@@ -48,11 +57,7 @@ public class MinMaxTree {
 				if ( temp.move != null ) temp.move.setXO('n');
 				temp = temp.parent;
 			}
-						
-			// Update the queue
-			if ( !current.pruned ) {
-				for ( RootNode n : current.children ) queue.add(n);
-			}
+
 			
 			// Evaluate the break conditions
 			if ( queue.size() == 0 ) break;
@@ -104,11 +109,13 @@ public class MinMaxTree {
 			}
 		}
 		
+		if ( list.size() == 0 ) return getAllNodes();
+		
 		Node[] ret = new Node[list.size()];
 		for ( int i = 0; i < ret.length; i++ ) {
 			ret[i] = list.removeFirst();
 		}
-		
+				
 		return ret;
 	}
 	
@@ -151,9 +158,46 @@ public class MinMaxTree {
 		
 		tree[0] += "|";
 		
+		// Remove lines which are only pipe chars
+		for ( int i = 0; i < tree.length; i++ ) {
+			if ( tree[i].replaceAll("[|]","").length() == 0 ) {
+				tree[i] = ""; 
+			}
+		}
+		
+		// Parse each line in reverse, adjusting the above line to be centered over the  line below
+		for ( int i = tree.length-1; i >= 1; i-- ) {
+			int startPipe = 0, endPipe = 0;
+			int startBrack = 0, endBrack = 0;
+			String curString;
+			int targLen;
+			
+			while ( tree[i].indexOf("|", endPipe+1) != -1 ) {
+				// Find the index'th pair of ||'s
+				startPipe = tree[i].indexOf("|", startPipe);
+				endPipe = tree[i].indexOf("|", startPipe+1);
+				targLen = endPipe-startPipe;
+				
+				startBrack = tree[i-1].indexOf("[", startBrack);
+				endBrack = tree[i-1].indexOf("]", startBrack);
+				
+				if (startBrack == -1 ) break;
+				System.out.println(startBrack+"  -  "+endBrack);
+				curString = tree[i-1].substring(startBrack,endBrack+1);
+				
+				while ( curString.length()-2 < targLen ) {
+					curString = " "+curString;
+					if ( curString.length()-2 < targLen ) curString = curString+" ";
+				}
+				
+				tree[i-1] = tree[i-1].substring(0, startBrack)+curString+tree[i-1].substring(endBrack+1, tree[i-1].length());
+				startBrack = startBrack+curString.length();
+			}
+			
+		}
 		
 		for ( int i = 0; i < tree.length; i++ ) {
-			if ( tree[i].length() > 1 ) System.out.println(tree[i]);
+			if ( tree[i].length() > 0 ) System.out.println(tree[i]);
 		}
 		
 	}
@@ -163,8 +207,15 @@ public class MinMaxTree {
 		for ( RootNode n : current.children ) {
 			printTreeRecurse(depth+1,n,tree);
 		}
-		
-		tree[depth] += " ["+current.value+"] ";
+		if ( current.children.size() == 0 ) {
+			tree[depth] += " [V"+current.value+"] ";
+		}
+		else if ( current.beta != 0 ) {
+			tree[depth] += " [B"+current.beta+"] ";
+		}
+		else if ( current.alpha != 0 ) {
+			tree[depth] += " [A"+current.alpha+"] ";
+		}
 		tree[depth+1] += "|";
 		
 	}

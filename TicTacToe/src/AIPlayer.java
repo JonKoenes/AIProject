@@ -2,6 +2,8 @@ import java.util.Random;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,6 +25,8 @@ public class AIPlayer implements IPlayer {
 	private char enSym;
 	private char type;					// '1' = Heuristic1, '2' = Heuristic2, 'c' = classifier
 	private Node[][] gameBoard;
+	private char HType = '3';
+
 	
 	public AIPlayer(char sym, char type, Node[][] board) {
 		mySym = sym;
@@ -37,8 +41,28 @@ public class AIPlayer implements IPlayer {
 		gameBoard = board;
 		
 		
-		//* Heuristic #3
 		switch (type) {
+		
+			//*
+			case 'T':
+			case 't':
+				// change priority
+				String[] options = {"Heuristic #3","Neural Network","Classifier"};
+			    int reply = JOptionPane.showOptionDialog(null, "Select the type of Heuristic to use with the MinMaxTree", "Heuristic Type", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			    if (reply == 0) {
+		        	System.out.println("Heuristic Set: Heuristic #3");
+		        	HType = '3'; 
+		        } else if (reply == 1) {
+		        	HType = 'n'; 
+		        	System.out.println("Heuristic Set: Neural Network");
+		        } else if (reply == 2) {
+		        	HType = 'c'; 
+		        	System.out.println("Heuristic Set: Classifier");
+		        }
+			    break;
+			    /* */
+
+		
 			case 'n':
 				heur = new NeuralNet();
 				heur.setParameter();
@@ -49,6 +73,11 @@ public class AIPlayer implements IPlayer {
 				heur.setParameter();
 				break;
 
+			case '3':
+				heur = new Heuristic3();
+				RATIO_OF_OPP_TO_PLAYER = 1.0;
+				break;
+				
 			case '2':
 				heur = new Heuristic2();
 				RATIO_OF_OPP_TO_PLAYER = 1.0;
@@ -66,23 +95,24 @@ public class AIPlayer implements IPlayer {
 	public Node play(Node[] choices, Node[] state) {
 		Node best = choices[0];
 		
-		
+
 		
 		//* Method #2 -- MinMaxTree
 		if ( type == 't') {
-			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false,'n');
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false,HType);
 			best = tree.evaluateTree(5, 10000);
+			return best;
 		}
 		/* */
 		
 		//* Method #2 -- MinMaxTree
-		System.out.println(type);
 		if ( type == 'T') {
-			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true,'n');
+			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true,HType);
 			best = tree.evaluateTree(5, 10000);
+			return best;
 		}
 		/* */
-
+		
 		if ( type == 'r') {
 			int i = 0;
 			for (; i < choices.length && choices[i] != null; i++ ) { }
@@ -169,12 +199,23 @@ public class AIPlayer implements IPlayer {
 			
 			
 			else{
-				temp1 = heur.evaluateState(n,mySym);
-				temp2 = heur.evaluateState(n,enSym);
-				temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
-				if (temp > bestVal ) {
-					best = n;
-					bestVal = temp;
+				System.out.println("Lolwut");
+				if ( type == '1' || type == '2' ) {
+					temp1 = heur.evaluateState(n,mySym);
+					temp2 = heur.evaluateState(n,enSym);
+					temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
+					if (temp > bestVal ) {
+						best = n;
+						bestVal = temp;
+					}
+				}
+				else if ( type == '3' ) {
+					temp1 = heur.evaluateState(n,mySym);
+					if (temp1 > bestVal ) {
+						best = n;
+						bestVal = temp1;
+					}
+					
 				}
 			}
 
