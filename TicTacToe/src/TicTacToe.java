@@ -1,6 +1,7 @@
 
-import java.awt.Color;
 import static java.awt.Component.LEFT_ALIGNMENT;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,18 +10,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTextArea;
 
 
 
@@ -33,15 +35,14 @@ public class TicTacToe implements ItemListener {
 
 	private TicTacToe myGame;
     private JFrame frame;
-	private JList lstP1, lstP2; // list box of options for player types
-	private String strP1, strP2; // p1, p2 selected type
-	private IPlayer p1, p2;
-	private String[] strPTypes = { "Human", "Computer: H1", "Computer: H2" }; // types
-																				// of
+	private IPlayer p1, p2;																				// of
 																				// Players
-	private String strP1Type = "", strP2Type = "";
 	private GUI myGUI;
 	private JCheckBox chkSquares = new JCheckBox("View Selection Squares");
+	private JCheckBox chkStatus = new JCheckBox("Show Status");
+	private boolean blnStatus = false;
+	private JTextArea myStatusReport;
+
 	private int turn;
     private static volatile boolean newGame = false, locked = false;
 	private Node[] allnodes, playedNodes, playableNodes;
@@ -69,57 +70,34 @@ public class TicTacToe implements ItemListener {
 		cmdQuitGame.setMnemonic(KeyEvent.VK_Q);
 		chkSquares.setMnemonic(KeyEvent.VK_V);
 		chkSquares.addItemListener(this);
+		chkStatus.setMnemonic(KeyEvent.VK_S);
+		chkStatus.addItemListener(this);
 
-		// populate lists
-		lstP1 = new JList(strPTypes);
-		lstP2 = new JList(strPTypes);
-		// set default settings
-		lstP1.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		lstP2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		lstP1.setLayoutOrientation(JList.VERTICAL_WRAP);
-		lstP2.setLayoutOrientation(JList.VERTICAL_WRAP);
-		lstP1.setVisibleRowCount(2);
-		lstP2.setVisibleRowCount(2);
-		// add mouse listeners
-		lstP1.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					strP1Type = lstP1.getSelectedValue().toString();
-				}
-			}
-		});
-		lstP2.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					strP2Type = lstP2.getSelectedValue().toString();
-				}
-			}
-		});
-		// add scroll panes
-		JScrollPane lstScrlP1 = new JScrollPane(lstP1);
-		lstScrlP1.setAlignmentX(LEFT_ALIGNMENT);
-		JScrollPane lstScrlP2 = new JScrollPane(lstP2);
-		lstScrlP2.setAlignmentX(LEFT_ALIGNMENT);
-		// add panels to house lists
-		// JPanel lstPane = new JPanel();
-		// lstPane.setLayout(new BoxLayout(lstPane, BoxLayout.PAGE_AXIS));
-		// JLabel lblP1 = new JLabel("Player 1 Type: " + strP1Type);
-		// lblP1.setLabelFor(lstP1);
-		// JLabel lblP2 = new JLabel("Player 2 Type: " + strP2Type);
-		// lblP2.setLabelFor(lstP2);
-		// lstPane.add(lblP1);
-		// lstPane.add(lstScrlP1);
-		// lstPane.add(lblP2);
-		// lstPane.add(lstScrlP2);
 		// stats pane
 		JPanel statsPane = new JPanel();
 		statsPane.setLayout(new GridBagLayout());
 		GridBagConstraints layoutConstraintsStats = new GridBagConstraints();
 		JLabel lblStats = new JLabel("Statistics");
+		layoutConstraintsStats.gridwidth = 2;
 		layoutConstraintsStats.anchor = GridBagConstraints.NORTH;
+		layoutConstraintsStats.fill = GridBagConstraints.HORIZONTAL;
 		statsPane.add(lblStats, layoutConstraintsStats);
 		statsPane.setBorder(BorderFactory.createLineBorder(Color.black));
 		statsPane.setPreferredSize(new Dimension(300, 660));
+		myStatusReport = new JTextArea();
+		myStatusReport.setColumns(25);
+		myStatusReport.setLineWrap(true);
+		myStatusReport.setRows(39);
+		//myStatusReport.setEditable(false);
+		layoutConstraintsStats.gridy = 1;
+		layoutConstraintsStats.gridwidth = 1;
+		layoutConstraintsStats.fill = GridBagConstraints.BOTH;		
+		statsPane.add(myStatusReport, layoutConstraintsStats);
+		JScrollPane myScrollPane = new JScrollPane(myStatusReport);
+		myScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+		layoutConstraintsStats.gridx = 1;
+		statsPane.add(myScrollPane, layoutConstraintsStats);
+		
 		// buttons pane
 		JPanel buttonsPane = new JPanel();
 		buttonsPane.setLayout(new GridBagLayout());
@@ -130,6 +108,9 @@ public class TicTacToe implements ItemListener {
 		buttonsPane.add(cmdQuitGame, layoutConstraintsButtons);
 		layoutConstraintsButtons.gridx = 2;
 		buttonsPane.add(chkSquares, layoutConstraintsButtons);
+		layoutConstraintsButtons.gridx = 3;
+		buttonsPane.add(chkStatus, layoutConstraintsButtons);
+
 		// add to layout
 		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 		layoutConstraints.gridx = 0;
@@ -146,9 +127,6 @@ public class TicTacToe implements ItemListener {
 		frame.add(buttonsPane, layoutConstraints);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-
-		setList1Values("Human"); // default value
-		setList2Values("Human"); // default value
 		frame.setVisible(true);
 
 		// New Game button listener
@@ -161,16 +139,14 @@ public class TicTacToe implements ItemListener {
 
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getItemSelectable();
-		if (source == chkSquares)
+		if (source == chkSquares) {
 			if (chkSquares.isSelected())
 				myGUI.SetViewSelectionSquares(true);
 			else
 				myGUI.SetViewSelectionSquares(false);
-	}
-
-	private void setList1Values(String newVal) {
-		strP1 = newVal;
-		lstP1.setSelectedValue(strP1, true);
+		} else if (source == chkStatus) {
+			blnStatus = chkStatus.isSelected();
+		}
 	}
 
 	public void playerSelection() {
@@ -242,14 +218,7 @@ public class TicTacToe implements ItemListener {
 		}
 	}
 
-	private void setList2Values(String newVal) {
-		strP2 = newVal;
-		lstP2.setSelectedValue(strP2, true);
-	}
-
-	private void playGame() {
-            
-            
+	private void playGame() {            
             
             runningGame = new Thread(new Runnable() {
                 
@@ -295,6 +264,8 @@ public class TicTacToe implements ItemListener {
                                     turn = 1;
                             }                      
                             update(justPlayed);
+                            if (blnStatus)
+                            	loadStatus();
                     }
                 }
             });
@@ -413,6 +384,20 @@ public class TicTacToe implements ItemListener {
             }
         }
         
+        private void loadStatus() {
+        	try {
+        		BufferedReader myBuffRead = new BufferedReader(new FileReader("data/status.txt"));
+        		String line;
+        		while ((line = myBuffRead.readLine()) != null) {
+        			myStatusReport.append(line);
+        		}
+        		myStatusReport.append("\n\n\n");
+        		myBuffRead.close();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
+        }
+
         public void printboard()
         {
             for(int i = 0; i < gameBoard.length; i++){

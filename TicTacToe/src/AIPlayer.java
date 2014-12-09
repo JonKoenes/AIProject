@@ -1,5 +1,6 @@
 import java.util.Random;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,19 +48,18 @@ public class AIPlayer implements IPlayer {
 				heur = new Classifier();
 				heur.setParameter();
 				break;
-								
+
+			case '2':
+				heur = new Heuristic2();
+				RATIO_OF_OPP_TO_PLAYER = 1.0;
+				break;
+				
+			case '1':
 			default:
             heur = new Heuristic1();
             RATIO_OF_OPP_TO_PLAYER = 0.95;
 				break;
 		}
-		/* */
-		
-		/* Heuristic #4
-		heur = new Heuristic2();
-		RATIO_OF_OPP_TO_PLAYER = 1.0;
-		/* */
-
 	}
 	
 	@Override
@@ -91,8 +91,11 @@ public class AIPlayer implements IPlayer {
 		//* Method #1 -- Greedy Heuristic
 		best = choices[0];
 		double bestVal = 0;
+		String[] myStatus = null;
 		
 		double temp,temp1,temp2;
+		int parameter = 0;
+
 		for (Node n : choices) {
 			if ( n == null ) { 
 				continue;
@@ -100,85 +103,44 @@ public class AIPlayer implements IPlayer {
 		
 			// run classifier
 			if (type == 'c') {
-				Node[] nextState = state;
-				nextState[n.getId()].setXO(mySym);
-				temp = heur.evaluateState(nextState, enSym);
-				//System.out.println("Classifier: Node ID-" + n.getId() + " classified as group: " + temp);
-				int parameter = heur.getParameter();
-				// assume win over loss where		win > loss 		and 	possible win > possible loss
-				Boolean exchange = false;
-				if (parameter > 0) {
-					if (bestVal != 2) {			// if classify as win, do not replace
-						if (temp == 2)				
-							exchange = true;
-						else if (bestVal != -2) {
-							if (temp == -2)
-								exchange = true;
-							else if (bestVal != 1) {
-								exchange = true;
-							}
-						}
-					}
+				parameter = heur.getParameter();
 				
-				// assume loss over win where		loss > win		and		possible loss > possible loss
-				} else {
-					if (bestVal != -2) {			// if classify as loss, do not replace
-						if (temp == -2)				
+				if (parameter > 0)
+					state[n.getId()].setXO(mySym);
+				else
+					state[n.getId()].setXO(enSym);
+				
+				temp = heur.evaluateState(state, enSym);
+
+				Boolean exchange = false;
+				if (bestVal == 0)
+					exchange = true;
+				else {
+					if (bestVal != 3) {			// keep track of win states
+						if (temp == 3)			// prevent loss unless have a win in priority	
 							exchange = true;
 						else if (bestVal != 2) {
 							if (temp == 2)
 								exchange = true;
 							else if (bestVal != -1) {
-								exchange = true;
+								if (temp == -1)
+									exchange = true;
+								else if (bestVal != 1) {
+									if (temp == 1)
+										exchange = true;
+									else if (temp == -2)
+										exchange = true;
+								}
 							}
 						}
 					}
 				}
-
 				if (exchange) {
 					bestVal = temp;
 					best = n;
-					
-					System.out.println("Classifier.status:");
-					String[] myStatus = heur.getStatus();
-					System.out.println("             " + myStatus[39]);
-					System.out.println("     " + myStatus[35] + "               " + myStatus[43]);
-					System.out.println("             " + myStatus[38]);
-					System.out.println("       " + myStatus[34] + "           " + myStatus[42]);
-					System.out.println("  " + myStatus[31] + "      " + myStatus[33] + "   " + myStatus[37] + "   " + myStatus[41] + "      " + myStatus[47]);
-					System.out.println("     " + myStatus[30] + "               " + myStatus[46]);
-					System.out.println("       " + myStatus[29] + "   " + myStatus[32] + " " + myStatus[36] + " " + myStatus[40] + "   " + myStatus[45]);
-					System.out.println("         " + myStatus[28] + "       " + myStatus[44]);
-					System.out.println(myStatus[27] + "  " + myStatus[26] + "  " + myStatus[25] + "  " + myStatus[24] + "       " + myStatus[0] + "  " + myStatus[1] + "  " + myStatus[2] + "  " + myStatus[3]);
-					System.out.println("         " + myStatus[20] + "       " + myStatus[4]);
-					System.out.println("       " + myStatus[21] + "   " + myStatus[16] + " " + myStatus[12] + " " + myStatus[8] + "   " + myStatus[5]);
-					System.out.println("     " + myStatus[22] + "               " + myStatus[6]);
-					System.out.println("  " + myStatus[23] + "      " + myStatus[17] + "   " + myStatus[13] + "   " + myStatus[9] + "      " + myStatus[7]);
-					System.out.println("       " + myStatus[18] + "           " + myStatus[10]);
-					System.out.println("             " + myStatus[14]);
-					System.out.println("     " + myStatus[19] + "               " + myStatus[11]);
-					System.out.println("             " + myStatus[15]);
-					System.out.println();
-					System.out.println();
-					System.out.println("             " + myStatus[39 + 48]);
-					System.out.println("     " + myStatus[35 + 48] + "               " + myStatus[43 + 48]);
-					System.out.println("             " + myStatus[38 + 48]);
-					System.out.println("       " + myStatus[34 + 48] + "           " + myStatus[42 + 48]);
-					System.out.println("  " + myStatus[31 + 48] + "      " + myStatus[33 + 48] + "   " + myStatus[37 + 48] + "   " + myStatus[41 + 48] + "      " + myStatus[47 + 48]);
-					System.out.println("     " + myStatus[30 + 48] + "               " + myStatus[46 + 48]);
-					System.out.println("       " + myStatus[29 + 48] + "   " + myStatus[32 + 48] + " " + myStatus[36 + 48] + " " + myStatus[40 + 48] + "   " + myStatus[45 + 48]);
-					System.out.println("         " + myStatus[28 + 48] + "       " + myStatus[44 + 48]);
-					System.out.println(myStatus[27 + 48] + "  " + myStatus[26 + 48] + "  " + myStatus[25 + 48] + "  " + myStatus[24 + 48] + "       " + myStatus[0 + 48] + "  " + myStatus[1 + 48] + "  " + myStatus[2 + 48] + "  " + myStatus[3 + 48]);
-					System.out.println("         " + myStatus[20 + 48] + "       " + myStatus[4 + 48]);
-					System.out.println("       " + myStatus[21 + 48] + "   " + myStatus[16 + 48] + " " + myStatus[12 + 48] + " " + myStatus[8 + 48] + "   " + myStatus[5 + 48]);
-					System.out.println("     " + myStatus[22 + 48] + "               " + myStatus[6 + 48]);
-					System.out.println("  " + myStatus[23 + 48] + "      " + myStatus[17 + 48] + "   " + myStatus[13 + 48] + "   " + myStatus[9 + 48] + "      " + myStatus[7 + 48]);
-					System.out.println("       " + myStatus[18 + 48] + "           " + myStatus[10 + 48]);
-					System.out.println("             " + myStatus[14 + 48]);
-					System.out.println("     " + myStatus[19 + 48] + "               " + myStatus[11 + 48]);
-					System.out.println("             " + myStatus[15 + 48]);
-}
-				nextState[n.getId()].setXO('n');
+				}
+				myStatus = heur.getStatus();
+				state[n.getId()].setXO('n');
 			
 			// run heuristics
 			} 
@@ -205,7 +167,7 @@ public class AIPlayer implements IPlayer {
 			}
 			
 			
-			else if ( type == '1' ){
+			else{
 				temp1 = heur.evaluateState(n,mySym);
 				temp2 = heur.evaluateState(n,enSym);
 				temp = temp1+(temp2*RATIO_OF_OPP_TO_PLAYER);
@@ -214,6 +176,20 @@ public class AIPlayer implements IPlayer {
 					bestVal = temp;
 				}
 			}
+
+			// save status
+			if (myStatus != null && myStatus.length > 0) {
+				try {
+					PrintWriter output = new PrintWriter("data/status.txt");
+					for (String getStatus: myStatus) {
+						output.println(getStatus + "\n");;
+					}
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 		System.out.println("AI played >> Bv = "+bestVal);
 		/* */		
