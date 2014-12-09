@@ -77,14 +77,17 @@ public class AIPlayer implements IPlayer {
 			if (type == 'c') {
 				parameter = heur.getParameter();
 				
-				state[n.getId()].setXO(mySym);
+				if (parameter > 0)
+					state[n.getId()].setXO(mySym);
+				else
+					state[n.getId()].setXO(enSym);
+				
 				temp = heur.evaluateState(state, enSym);
 
 				Boolean exchange = false;
 				if (bestVal == 0)
 					exchange = true;
 				else {
-					// play offensive		where try to create a win or possible win state
 					if (bestVal != 3) {			// keep track of win states
 						if (temp == 3)			// prevent loss unless have a win in priority	
 							exchange = true;

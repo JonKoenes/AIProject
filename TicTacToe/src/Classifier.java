@@ -35,44 +35,26 @@ public class Classifier implements IHeuristic{
 		int classification = 0;
 		for (Node myNode: state) {
 			int temp = classify(state, myNode);
-			classifications[myNode.getId()] = temp; 		// save for status
+			classifications[myNode.getId()] = temp * priority; 		// save for status
 			
-			// assume win over loss where		win > loss 		and 	possible win > possible loss
-//			if (priority > 0) {
-				if (classification != 3) {			// if classify as win, do not replace
-					if (temp == 3) {				
+			if (classification != 3) {			// if classify as win, do not replace
+				if (temp == 3) {				
+					classification = temp;
+				} else if (classification != 2) {
+					if (temp == 2) {
 						classification = temp;
-					} else if (classification != 2) {
-						if (temp == 2) {
+					} else if (classification != -2) {
+						if (temp == -2) {
 							classification = temp;
-						} else if (classification != -1) {
-							if (temp == -1) {
+						} else if (classification != 1) {
+							if (temp == 1) {
 								classification = temp;
-							} else if (classification != 1) {
-								if (temp == 1) {
-									classification = temp;
-								} else if (temp == -2)
-									classification = temp;
-							}
+							} else if (temp == -1)
+								classification = temp;
 						}
 					}
 				}
-//			}
-			
-//			// assume loss over win where		loss > win		and		possible loss > possible loss
-//			} else {
-//				if (classification != -2) {			// if classify as loss, do not replace
-//					if (temp == -2)				
-//						classification = temp;
-//					else if (classification != 2) {
-//						if (temp == 2)
-//							classification = temp;
-//						else if (classification != -1) {
-//							classification = temp;
-//						}
-//					}
-//				}
-//			}
+			}
 		}
 		
 		return classification;
@@ -367,84 +349,31 @@ public class Classifier implements IHeuristic{
 		status = new String[23];
 		ArrayList<int[]> order = new ArrayList<int[]>();
 		
-		// top of circle
-		order.add(new int[]{39});
-		order.add(new int[]{35, 43});
-		order.add(new int[]{38});
-		order.add(new int[]{34, 42});
-		order.add(new int[]{37});
-		order.add(new int[]{31, 47});
-		order.add(new int[]{33, 41});
-		order.add(new int[]{30, 46});
-		order.add(new int[]{36});
-		order.add(new int[]{29, 32, 40, 45});
-		order.add(new int[]{28, 44});
-		
-		// middle
-		order.add(new int[]{27, 26, 25, 24, 0, 1, 2, 3});
-		
-		// bottom of circle
-		order.add(new int[]{20, 4});
-		order.add(new int[]{21, 16, 8, 5});
-		order.add(new int[]{12});
-		order.add(new int[]{22, 6});
-		order.add(new int[]{17, 9});
-		order.add(new int[]{23, 7});
-		order.add(new int[]{13});
-		order.add(new int[]{18, 10});
-		order.add(new int[]{14});
-		order.add(new int[]{19, 11});
-		order.add(new int[]{15});
+		// north quadrant
+		order.add(new int[]{35, 39, 43});
+		order.add(new int[]{34, 38, 42});
+		order.add(new int[]{33, 37, 41});
+		order.add(new int[]{32, 36, 40});
+		// West and East quadrant
+		order.add(new int[]{31, 30, 29, 28,    44, 45, 46, 47});
+		order.add(new int[]{27, 26, 25, 24,    0, 1, 2, 3});
+		order.add(new int[]{23, 22, 21, 20,    4, 5, 6, 7});
+		// South quadrant
+		order.add(new int[]{16, 12, 8});
+		order.add(new int[]{17, 13, 9});
+		order.add(new int[]{18, 14, 10});
+		order.add(new int[]{19, 15, 11});
 		
 		int counter = 0;
 		while (order.size() > 0) {			
 			int[] currOrder = order.get(0); 
 			for (int ocounter = 0; ocounter < currOrder.length; ocounter++) {
-				int space = 0;
-				int index = currOrder[ocounter];
-				if (index == 27)
-					space = 3;
-				else if (index == 23 || index == 31)
-					space = 5;
-				else if ((index >= 24 && index <= 26) || (index >= 1 && index <= 3))
-					space = 6;
-				else if (index == 5 || index == 8 || index == 16 || index == 32 || index == 40 || index == 45)
-					space = 9;
-				else if (index == 22 || index == 30)
-					space = 11;
-				else if (index == 9 || index == 41)
-					space = 15;
-				else if (index == 4 || index == 19 || index == 35 || index == 44)
-					space = 17;
-				else if (index == 21 || index == 29)
-					space = 18;
-				else if (index == 0)
-					space = 17;
-				else if (index == 18 || index == 34)
-					space = 21;
-				else if (index == 10 || index == 42)
-					space = 23;
-				else if (index == 20 || index == 28)
-					space = 24;
-				else if (index == 17 || index == 33)
-					space = 25;
-				else if (index == 11 || index == 43)
-					space = 31;
-				else if ((index >= 36 && index <= 39) || (index >= 12 && index <= 15))
-					space = 33;
-				else if (index == 6 || index == 46)
-					space = 42;
-				else if (index == 7 || index == 47)
-					space = 54;
-				if (status[counter] == null)
-					status[counter] = "";
-				for (int scounter = 0; scounter < space; scounter++) {
-					status[counter] = status[counter] + " ";
-				}
 				if (classifications[counter] < 0)
-					status[counter] = status[counter].substring(0, status[counter].length() - 2) + String.valueOf(classifications[index]);
+					status[counter] = status[counter] + "     " + String.valueOf(classifications[currOrder[ocounter]]);
 				else
-					status[counter] = status[counter] + String.valueOf(classifications[index]);
+					status[counter] = status[counter] + "      " + String.valueOf(classifications[currOrder[ocounter]]);
+				if (currOrder.length > 3 && ocounter == 3)
+					status[counter] = status[counter] + "          ";
 			}
 			order.remove(0);
 			counter++;

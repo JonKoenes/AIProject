@@ -375,6 +375,7 @@ public class TicTacToe implements ItemListener {
         		while ((line = myBuffRead.readLine()) != null) {
         			myStatusReport.append(line);
         		}
+        		myStatusReport.append("\n\n\n");
         		myBuffRead.close();
         	} catch (IOException e) {
         		e.printStackTrace();
