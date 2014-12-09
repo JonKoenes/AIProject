@@ -85,7 +85,7 @@ public class TicTacToe implements ItemListener {
 		statsPane.setBorder(BorderFactory.createLineBorder(Color.black));
 		statsPane.setPreferredSize(new Dimension(300, 660));
 		myStatusReport = new JTextArea();
-		myStatusReport.setColumns(25);
+		myStatusReport.setColumns(20);
 		myStatusReport.setLineWrap(true);
 		myStatusReport.setRows(39);
 		//myStatusReport.setEditable(false);
@@ -176,7 +176,7 @@ public class TicTacToe implements ItemListener {
 					type = 'n';
 				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
 					type = 't';
-				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+				else if(choice.equals("AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
 					type = 'T';
 				else if(choice.equals("Random"))				// Random player
 					type = 'r';
@@ -209,7 +209,7 @@ public class TicTacToe implements ItemListener {
 					type = 'n';
 				else if(choice.equals("AI: MinMaxTree"))		// Min-MaxTree
 					type = 't';
-				else if(choice.equals("AI: AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
+				else if(choice.equals("AI: MinMaxTree (Alpha-Beta Pruning)"))	// Min-MaxTree
 					type = 'T';
 				else if(choice.equals("Random"))				// Random player
 					type = 'r';

@@ -15,7 +15,7 @@ public class MaxRootNode extends RootNode {
 			inMove.setXO(chr);
 			value = evaluateHeuristic(inMove);
 			inMove.setXO('n');
-			System.out.println(value);
+			if ( DEBUG_LEVEL >= 1 ) System.out.println(inMove+", "+value);
 		}
 
 		//alpha = Double.MIN_VALUE;
@@ -43,13 +43,13 @@ public class MaxRootNode extends RootNode {
 		//alpha = value;
 		alpha = Double.MIN_VALUE;
 
-		System.out.println("Resolving: A-"+alpha);
+		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: A-"+alpha);
 		for ( RootNode n : children ) {
-			System.out.println(n.beta);
+			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.beta);
 			if ( n.beta > alpha ) alpha = n.beta;
 		}
 		
-		System.out.println("Resolved: A-"+alpha);
+		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolved: A-"+alpha);
 		
 		if ( parent != null ) parent.resolveNode();
 	}

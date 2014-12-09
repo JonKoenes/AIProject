@@ -8,9 +8,13 @@ public class MinMaxTree {
 	private char chr;
 	private LinkedList<RootNode> queue;
 	RootNode root;
+	char HeuristicType;
+	static final int DEBUG_LEVEL = 0;
+
 	
-	public MinMaxTree(Node[][] board, char c,boolean prune) {
+	public MinMaxTree(Node[][] board, char c,boolean prune,char hType) {
 		gameBoard = board;
+		HeuristicType = hType;
 		chr = c;
 		usingPruning = prune;
 		queue = new LinkedList<RootNode>();
@@ -26,7 +30,7 @@ public class MinMaxTree {
 		int dp;
 		while ( true ) {
 			current = queue.removeFirst();
-			System.out.println("Evaluating.....");
+			if ( DEBUG_LEVEL >= 1 ) System.out.println("Evaluating.....");
 
 			// Mark the nodes
 			temp = current;
@@ -69,14 +73,14 @@ public class MinMaxTree {
 		double bestValue = Double.NEGATIVE_INFINITY;
 		for ( RootNode n : root.children ) {
 			//if ( root.alpha == n.beta ) return n.move;
-			System.out.println(n.beta+" > "+bestValue);
+			if ( DEBUG_LEVEL >= 2 ) System.out.println(n.beta+" > "+bestValue);
 			if ( n.beta > bestValue ) {
 				best = n.move;
 				bestValue = n.beta;
 			}
 		}
 		
-		printTree();
+		if ( DEBUG_LEVEL >= 1 ) printTree();
 		
 		return best;
 	}
@@ -108,6 +112,36 @@ public class MinMaxTree {
 		return ret;
 	}
 	
+	public IHeuristic getHeuristic() {
+		
+		IHeuristic ret = null;
+		
+		switch (HeuristicType) {
+		case '1':
+			ret = new Heuristic1();
+			break;
+
+		case '2':
+			ret = new Heuristic2();
+			break;
+
+		case '3':
+			ret = new Heuristic3();
+			break;
+			
+		case 'c':
+			ret = new Classifier();
+			break;
+
+		case 'n':
+			ret = new NeuralNet();
+			break;
+		}
+		
+		return ret;
+		
+	}
+	
 	public void printTree() {
 		String[] tree = new String[10];
 		for ( int i = 0; i < tree.length; i++ ) tree[i] = "|";
@@ -134,6 +168,23 @@ public class MinMaxTree {
 		tree[depth+1] += "|";
 		
 	}
+	
+	public Node[] getAllNodes() {
+		Node[] list = new Node[48];
+		int index = 0;
+		
+		for ( int i = 0; i < gameBoard.length; i++ )
+			for ( int i2 = 0; i2 < gameBoard[0].length; i2++ ) {
+				list[index] = gameBoard[i][i2];
+				index++;
+			}
+				
+		
+		
+		return list;
+	}
+
+
 	
 
 }
