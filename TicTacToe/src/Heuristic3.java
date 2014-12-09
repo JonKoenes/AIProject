@@ -12,8 +12,28 @@ public class Heuristic3 implements IHeuristic {
 	
 	private static LinkedList<Node> list = null;
 
-	
+
 	public double evaluateState(Node root, char sym) {
+		char opp;
+		if ( sym == 'x' ) opp = 'o';
+		else opp = 'x';
+
+		double mine = evaluateSide(root, sym);
+		if ( DEBUG >= 2 ) System.out.println("M:"+mine);
+		double enem = evaluateSide(root, opp);
+		if ( DEBUG >= 2 ) System.out.println("E:"+enem);
+		
+		if ( mine >= 9000 ) {
+			return 9000;
+		}
+		if ( enem >= 9000 ) {
+			if ( sym == opp ) return -9000;
+		}
+		
+		return mine;
+	}
+	
+	public double evaluateSide(Node root, char sym) {
 		if ( list == null ) list = getAllNodes(root);
 		double ret = 0;
 		
@@ -42,8 +62,18 @@ public class Heuristic3 implements IHeuristic {
 
 	@Override
 	public double evaluateState(Node[] state, char inChar) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		double sum = 0.0;
+		double temp = 0.0;
+		for ( Node n : state ) {
+			temp = evaluateState(n,inChar);
+			if ( temp == 9000 ) return 9000;
+			if ( temp == -9000 ) return -9000;
+			
+			sum += temp;
+		}
+		
+		return sum;
 	}
 
 	@Override

@@ -41,6 +41,15 @@ public class MinMaxTree {
 			
 			// Expand the tree
 			current.expandNode(getPlayableNodes());
+									
+			// Update the queue
+			if ( !current.pruned ) {
+				for ( RootNode n : current.children ) queue.add(n);
+			}
+			else {
+				System.out.println("Pruned "+current+" >> Parent: "+current.parent);
+			}
+			
 			
 			// Un-mark the nodes
 			temp = current;
@@ -48,11 +57,7 @@ public class MinMaxTree {
 				if ( temp.move != null ) temp.move.setXO('n');
 				temp = temp.parent;
 			}
-						
-			// Update the queue
-			if ( !current.pruned ) {
-				for ( RootNode n : current.children ) queue.add(n);
-			}
+
 			
 			// Evaluate the break conditions
 			if ( queue.size() == 0 ) break;
@@ -104,11 +109,13 @@ public class MinMaxTree {
 			}
 		}
 		
+		if ( list.size() == 0 ) return getAllNodes();
+		
 		Node[] ret = new Node[list.size()];
 		for ( int i = 0; i < ret.length; i++ ) {
 			ret[i] = list.removeFirst();
 		}
-		
+				
 		return ret;
 	}
 	
