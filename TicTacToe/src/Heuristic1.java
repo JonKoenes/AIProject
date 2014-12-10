@@ -10,7 +10,7 @@ public class Heuristic1 implements IHeuristic {
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
 	private static double VALUE_OF_2ND_SPACE = 3.0; 
 	private static double VALUE_OF_3RD_SPACE = 9.0; 
-	private final int DEBUG = 1;
+	private final int DEBUG = 0;
 
 	
 	public double evaluateState(Node root, char sym) {

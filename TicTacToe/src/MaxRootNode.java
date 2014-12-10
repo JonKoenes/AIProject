@@ -18,8 +18,8 @@ public class MaxRootNode extends RootNode {
 			if ( DEBUG_LEVEL >= 1 ) System.out.println(inMove+", "+value);
 		}
 
-		//alpha = Double.MIN_VALUE;
-		alpha = value;
+		alpha = Double.NEGATIVE_INFINITY;
+		//alpha = value;
 	}
 	
 	@Override
@@ -29,14 +29,8 @@ public class MaxRootNode extends RootNode {
 		for ( Node n : choices ) {
 			tempNode = new MinRootNode(n,this,tree);
 			children.add(tempNode);
-			
-			if ( tree.isPruning() && parent != null && alpha > parent.beta ) {
-				pruned = true;
-				return;
-			}
 		}
 		
-		resolveNode();		
 	}
 	
 	public void resolveNode() {
@@ -46,12 +40,25 @@ public class MaxRootNode extends RootNode {
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: A-"+alpha);
 		for ( RootNode n : children ) {
 			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.beta);
+			System.out.println(">> TEST "+n.beta +" > "+alpha);
 			if ( n.beta > alpha ) alpha = n.beta;
+		}
+		if ( children.size() == 0 ) {
+			System.out.println(">> TEST == "+alpha);			
+			alpha = value;
+		}
+
+		if ( parent != null ) {
+			parent.resolveNode();
+			
+		}
+		
+		if ( tree.isPruning() && parent != null && alpha > parent.beta ) {
+			if ( DEBUG_LEVEL >= 2 ) System.out.println("Pruned A-"+alpha);			
+			pruned = true;
 		}
 		
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolved: A-"+alpha);
-		
-		if ( parent != null ) parent.resolveNode();
 	}
 
 	/*
