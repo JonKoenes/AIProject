@@ -251,17 +251,31 @@ public class TicTacToe implements ItemListener {
                     Resolution.setRules();
 
                     Node justPlayed = null;
+                    boolean found;
 
                     while (!newGame && !winCheck() ) {
 
                             if (turn == 1) {
-                                    justPlayed = p1.play(playableNodes, allnodes);
+	                            	do {
+	                                	justPlayed = p1.play(playableNodes, allnodes);
+	                                    
+	                                    found = false;
+	                                    for ( int i = 0; i < playableNodes.length; i++)
+	                                    	if ( playableNodes[i] == justPlayed ) found = true;
+	                            	} while ( justPlayed == null || !found );
+
                                     System.out.println(turn + " just played");
                                     justPlayed.setValue(true);
                                     justPlayed.setXO('x');
                                     turn = 2;
                             } else if (turn == 2) {
-                                    justPlayed = p2.play(playableNodes, allnodes);
+	                            	do {
+	                                    justPlayed = p2.play(playableNodes, allnodes);
+	                                    
+	                                    found = false;
+	                                    for ( int i = 0; i < playableNodes.length; i++)
+	                                    	if ( playableNodes[i] == justPlayed ) found = true;
+	                            	} while ( justPlayed == null || !found );
                                     System.out.println(turn + " just played");
                                     justPlayed.setValue(true);
                                     justPlayed.setXO('o');

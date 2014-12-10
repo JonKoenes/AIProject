@@ -40,11 +40,11 @@ public class MaxRootNode extends RootNode {
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: A-"+alpha);
 		for ( RootNode n : children ) {
 			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.beta);
-			System.out.println(">> TEST "+n.beta +" > "+alpha);
+			//System.out.println(">> TEST "+n.beta +" > "+alpha);
 			if ( n.beta > alpha ) alpha = n.beta;
 		}
 		if ( children.size() == 0 ) {
-			System.out.println(">> TEST == "+alpha);			
+			//System.out.println(">> TEST == "+alpha);			
 			alpha = value;
 		}
 
@@ -53,7 +53,7 @@ public class MaxRootNode extends RootNode {
 			
 		}
 		
-		if ( tree.isPruning() && parent != null && alpha > parent.beta ) {
+		if ( tree.isPruning() && parent != null && alpha >= parent.beta ) {
 			if ( DEBUG_LEVEL >= 2 ) System.out.println("Pruned A-"+alpha);			
 			pruned = true;
 		}

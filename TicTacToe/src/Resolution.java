@@ -32,7 +32,7 @@ public class Resolution {
 			return true;
 		}
 		
-		//System.out.println("Backchaining on " + goal);
+		System.out.println("Backchaining on " + goal);
 		
 		//break apart multiple list into separate clauses and backchain separately
 		if(goal.contains("&")){

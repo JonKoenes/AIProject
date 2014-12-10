@@ -29,15 +29,24 @@ public class MinMaxTree {
 		RootNode current,temp;
 		int dp = 0;
 		while ( true ) {
+			
+			
+			if ( queue.size() == 0 ) break;
+
 			current = queue.removeFirst();
 			if ( DEBUG_LEVEL >= 1 ) System.out.println("Evaluating.....  "+current+"  >>  "+current.parent);
 			
 			// Check for Pruning
-			if ( current.pruned ) {
-				printTree();
-				System.out.println("Pruned ("+dp+") "+current+" >> Parent: "+current.parent);
-				continue;
+			temp = current;
+			while ( temp != null ) {
+				if ( temp.pruned ) {
+					//printTree();
+					System.out.println("Pruned ("+dp+") "+current+" >> Parent: "+current.parent);
+					break;
+				}
+				temp = temp.parent;
 			}
+			if ( temp != null && temp.pruned ) continue;
 
 			// Mark the nodes
 			temp = current;
@@ -73,9 +82,9 @@ public class MinMaxTree {
 					temp = temp.parent;
 				}
 				if ( dp > depth ) {
-					System.out.println("Resolving "+temp+" with "+temp.children.size());
+					temp = queue.removeFirst();
 					temp.resolveNode();
-					queue.removeFirst();
+					
 				}
 				else { break; }
 				if ( queue.size() == 0 ) break;
@@ -85,24 +94,27 @@ public class MinMaxTree {
 			if ( (System.currentTimeMillis()-t) > time ) break;
 		}
 		
+
+		
 		// Resolve the remaining nodes
 		for ( RootNode n : queue ) {
 			n.resolveNode();
 		}
-		
+
+
 		// Get the return node
 		Node best = null;
 		double bestValue = Double.NEGATIVE_INFINITY;
 		for ( RootNode n : root.children ) {
 			//if ( root.alpha == n.beta ) return n.move;
 			if ( DEBUG_LEVEL >= 2 ) System.out.println(n.beta+" > "+bestValue);
-			if ( n.beta > bestValue ) {
+			if ( n.beta >= bestValue ) {
 				best = n.move;
 				bestValue = n.beta;
 			}
 		}
 		
-		if ( DEBUG_LEVEL >= 1 ) printTree();
+		//if ( DEBUG_LEVEL >= 1 ) printTree();
 		
 		return best;
 	}
