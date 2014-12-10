@@ -49,6 +49,7 @@ public abstract class RootNode {
 		
 		if ( move != null ) ret += move.toString();
 		
+		/*
 		if ( alpha != 0 ) {
 			ret += "   Alpha: "+alpha;
 		}
@@ -58,6 +59,7 @@ public abstract class RootNode {
 		else {
 			ret += "   Value: "+value;
 		}
+		*/
 		
 		return ret;
 	}
