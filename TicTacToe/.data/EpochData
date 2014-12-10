@@ -1,29 +1,41 @@
 1000 Games against random playing opponent:
 *********************************************
 60 Hidden Nodes
+200000 Epochs
+For X:772 wins and 228 losses
+For O:759 wins and 241 losses
+
+150000 Epochs
+For X:757 wins and 242 losses
+For O:771 wins and 229 losses
+
+100000 Epochs
+For X:766 wins and 234 losses
+For O:765 wins and 235 losses
+
 60000 Epochs
 For X:652 wins and 348 losses
-For O:
+For O:722 wins and 278 losses
 
 50000 Epochs
 For X:628 wins and 372 losses
-For O:
+For O:744 wins and 256 losses
 
 40000 Epochs
 For X:590 wins and 410 losses
-For O:
+For O:702 wins and 298 losses
 
 30000 Epochs
 For X:717 wins and 283 losses
-For O:
+For O:727 wins and 276 losses
 
 20000 Epochs
 For X:726 wins and 274 losses
-For O:
+For O:720 wins and 280 losses
 
 10000 Epochs
 For X:714 wins and 286 losses
-For O:
+For O:732 wins and 268 losses
 
 
 
