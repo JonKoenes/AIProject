@@ -73,30 +73,30 @@ public class TicTacToe implements ItemListener {
 		chkStatus.setMnemonic(KeyEvent.VK_S);
 		chkStatus.addItemListener(this);
 
-		// stats pane
-		JPanel statsPane = new JPanel();
-		statsPane.setLayout(new GridBagLayout());
-		GridBagConstraints layoutConstraintsStats = new GridBagConstraints();
-		JLabel lblStats = new JLabel("Statistics");
-		layoutConstraintsStats.gridwidth = 2;
-		layoutConstraintsStats.anchor = GridBagConstraints.NORTH;
-		layoutConstraintsStats.fill = GridBagConstraints.HORIZONTAL;
-		statsPane.add(lblStats, layoutConstraintsStats);
-		statsPane.setBorder(BorderFactory.createLineBorder(Color.black));
-		statsPane.setPreferredSize(new Dimension(300, 660));
-		myStatusReport = new JTextArea();
-		myStatusReport.setColumns(20);
-		myStatusReport.setLineWrap(true);
-		myStatusReport.setRows(39);
-		//myStatusReport.setEditable(false);
-		layoutConstraintsStats.gridy = 1;
-		layoutConstraintsStats.gridwidth = 1;
-		layoutConstraintsStats.fill = GridBagConstraints.BOTH;		
-		statsPane.add(myStatusReport, layoutConstraintsStats);
-		JScrollPane myScrollPane = new JScrollPane(myStatusReport);
-		myScrollPane.setAlignmentX(LEFT_ALIGNMENT);
-		layoutConstraintsStats.gridx = 1;
-		statsPane.add(myScrollPane, layoutConstraintsStats);
+//		// stats pane
+//		JPanel statsPane = new JPanel();
+//		statsPane.setLayout(new GridBagLayout());
+//		GridBagConstraints layoutConstraintsStats = new GridBagConstraints();
+//		JLabel lblStats = new JLabel("Statistics");
+//		layoutConstraintsStats.gridwidth = 2;
+//		layoutConstraintsStats.anchor = GridBagConstraints.NORTH;
+//		layoutConstraintsStats.fill = GridBagConstraints.HORIZONTAL;
+//		statsPane.add(lblStats, layoutConstraintsStats);
+//		statsPane.setBorder(BorderFactory.createLineBorder(Color.black));
+//		statsPane.setPreferredSize(new Dimension(300, 660));
+//		myStatusReport = new JTextArea();
+//		myStatusReport.setColumns(20);
+//		myStatusReport.setLineWrap(true);
+//		myStatusReport.setRows(39);
+//		//myStatusReport.setEditable(false);
+//		layoutConstraintsStats.gridy = 1;
+//		layoutConstraintsStats.gridwidth = 1;
+//		layoutConstraintsStats.fill = GridBagConstraints.BOTH;		
+//		statsPane.add(myStatusReport, layoutConstraintsStats);
+//		JScrollPane myScrollPane = new JScrollPane(myStatusReport);
+//		myScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+//		layoutConstraintsStats.gridx = 1;
+//		statsPane.add(myScrollPane, layoutConstraintsStats);
 		
 		// buttons pane
 		JPanel buttonsPane = new JPanel();
@@ -109,7 +109,7 @@ public class TicTacToe implements ItemListener {
 		layoutConstraintsButtons.gridx = 2;
 		buttonsPane.add(chkSquares, layoutConstraintsButtons);
 		layoutConstraintsButtons.gridx = 3;
-		buttonsPane.add(chkStatus, layoutConstraintsButtons);
+		//buttonsPane.add(chkStatus, layoutConstraintsButtons);
 
 		// add to layout
 		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -118,7 +118,7 @@ public class TicTacToe implements ItemListener {
 		frame.add(myGUI, layoutConstraints);
 		layoutConstraints.fill = GridBagConstraints.BOTH;
 		layoutConstraints.gridx = 1;
-		frame.add(statsPane, layoutConstraints);
+		//frame.add(statsPane, layoutConstraints);
 		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 		layoutConstraints.gridy = 1;
 		// this.add(lstPane, layoutConstraints);

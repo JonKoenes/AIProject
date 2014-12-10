@@ -234,7 +234,7 @@ public class AIPlayer implements IPlayer {
 			}
 
 		}
-		System.out.println("AI played >> Bv = "+bestVal);
+		System.out.println("AI played node: " + best.getId() + " >> Bv = "+bestVal);
 		/* */		
 		
 		return best;
