@@ -35,15 +35,15 @@ public class MinRootNode extends RootNode {
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: B-"+beta);
 		for ( RootNode n : children ) {
 			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.alpha);
-			System.out.println(">> TEST "+n.alpha +" < "+beta);
+			//System.out.println(">> TEST "+n.alpha +" < "+beta);
 			if ( n.alpha < beta ) beta = n.alpha;
 		}
 		if ( children.size() == 0 ) {
-			System.out.println(">> TEST == "+beta);			
+			//System.out.println(">> TEST == "+beta);			
 			beta = value;
 		}
 		
-		if ( tree.isPruning() && parent != null && beta < parent.alpha ) {
+		if ( tree.isPruning() && parent != null && beta <= parent.alpha ) {
 			if ( DEBUG_LEVEL >= 2 ) System.out.println("Pruned B-"+beta);			
 			pruned = true;
 		}

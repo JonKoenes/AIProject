@@ -101,7 +101,7 @@ public class AIPlayer implements IPlayer {
 		if ( type == 't') {
 			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false,HType);
 			best = tree.evaluateTree(5, 25000);
-			tree.printTree();
+			//tree.printTree();
 			return best;
 		}
 		/* */
@@ -110,7 +110,7 @@ public class AIPlayer implements IPlayer {
 		if ( type == 'T') {
 			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true,HType);
 			best = tree.evaluateTree(5, 25000);
-			tree.printTree();
+			//tree.printTree();
 			return best;
 		}
 		/* */
@@ -201,7 +201,6 @@ public class AIPlayer implements IPlayer {
 			
 			
 			else{
-				System.out.println("Lolwut");
 				if ( type == '1' || type == '2' ) {
 					temp1 = heur.evaluateState(n,mySym);
 					temp2 = heur.evaluateState(n,enSym);

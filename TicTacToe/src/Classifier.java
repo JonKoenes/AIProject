@@ -18,7 +18,7 @@ public class Classifier implements IHeuristic{
 
 	private char enSymbol;									// enemy symbol
 	private int[][] testData = new int[11][3];				// {#}{mySymbolVal, enSymbolVal, Win=1/Loss=0}
-	private int[] classifications = new int[48];
+//	private int[] classifications = new int[48];
 	private int k = 1;										// k-nearest neighbor
 	private int priority = 1;						// 1: aggressive, -1: defensive
 	String[] status;
@@ -35,8 +35,7 @@ public class Classifier implements IHeuristic{
 		int classification = 0;
 		for (Node myNode: state) {
 			int temp = classify(state, myNode);
-			classifications[myNode.getId()] = temp; 		// save for status
-			
+//			classifications[myNode.getId()] = temp; 		// save for status
 			if (classification != 3) {			// if classify as win, do not replace
 				if (temp == 3) {				
 					classification = temp;
@@ -56,6 +55,7 @@ public class Classifier implements IHeuristic{
 				}
 			}
 		}
+		System.out.println("Classifier.evaluateState: " + classification);
 		
 		return classification;
 	}
@@ -346,6 +346,7 @@ public class Classifier implements IHeuristic{
 	}
 
 	private void formatStatus() {
+/*
 		status = new String[11];
 		ArrayList<int[]> order = new ArrayList<int[]>();
 		
@@ -380,11 +381,12 @@ public class Classifier implements IHeuristic{
 			order.remove(0);
 			counter++;
 		}
+		*/
 	}
 	
 	@Override
 	public String[] getStatus() {
-		formatStatus();
+//		formatStatus();
 		
 		return status;
 	}

@@ -476,7 +476,7 @@ public class NeuralNet implements IHeuristic {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			System.out.println("shit happened");
+			System.out.println("stuff happened");
 		}
 		
 		
@@ -495,6 +495,7 @@ public class NeuralNet implements IHeuristic {
 	public double evaluateState(Node[] state, char inChar) {
 		setInput(state, inChar);
 		calculateNetwork();
+		System.out.println("Value for " + inChar + " is " + output[0]);
 		return output[0];
 	}
 

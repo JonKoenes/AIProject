@@ -14,7 +14,7 @@ public abstract class RootNode {
 	char chr;
 	int heurType;
 	
-	static final int DEBUG_LEVEL = 2;
+	static final int DEBUG_LEVEL = 0;
 
 	public RootNode(){}
 	public RootNode(Node inMove, RootNode inPar,MinMaxTree t) {
@@ -49,6 +49,7 @@ public abstract class RootNode {
 		
 		if ( move != null ) ret += move.toString();
 		
+		/*
 		if ( alpha != 0 ) {
 			ret += "   Alpha: "+alpha;
 		}
@@ -58,6 +59,7 @@ public abstract class RootNode {
 		else {
 			ret += "   Value: "+value;
 		}
+		*/
 		
 		return ret;
 	}
