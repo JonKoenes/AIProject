@@ -9,7 +9,7 @@ public class MinMaxTree {
 	private LinkedList<RootNode> queue;
 	RootNode root;
 	char HeuristicType;
-	static final int DEBUG_LEVEL = 1;
+	static final int DEBUG_LEVEL = 0;
 
 	
 	public MinMaxTree(Node[][] board, char c,boolean prune,char hType) {
@@ -27,10 +27,17 @@ public class MinMaxTree {
 		long t = System.currentTimeMillis();
 		
 		RootNode current,temp;
-		int dp;
+		int dp = 0;
 		while ( true ) {
 			current = queue.removeFirst();
 			if ( DEBUG_LEVEL >= 1 ) System.out.println("Evaluating.....  "+current+"  >>  "+current.parent);
+			
+			// Check for Pruning
+			if ( current.pruned ) {
+				printTree();
+				System.out.println("Pruned ("+dp+") "+current+" >> Parent: "+current.parent);
+				continue;
+			}
 
 			// Mark the nodes
 			temp = current;
@@ -43,12 +50,8 @@ public class MinMaxTree {
 			current.expandNode(getPlayableNodes());
 									
 			// Update the queue
-			if ( !current.pruned ) {
-				for ( RootNode n : current.children ) queue.add(n);
-			}
-			else {
-				System.out.println("Pruned "+current+" >> Parent: "+current.parent);
-			}
+			//for ( RootNode n : current.children ) queue.addLast(n); // Add to end of the queue (Breadth first tree expansion)
+			for ( RootNode n : current.children ) queue.addFirst(n); // Add to start of the queue (Depth first tree expansion)
 			
 			
 			// Un-mark the nodes
@@ -62,15 +65,29 @@ public class MinMaxTree {
 			// Evaluate the break conditions
 			if ( queue.size() == 0 ) break;
 
-			temp = queue.peekFirst();
-			dp = 1;
-			while ( temp.parent != null ) {
-				dp++;
-				temp = temp.parent;
-			}
-			if ( dp > depth ) break;
-
+			do {
+				temp = queue.peekFirst();
+				dp = 1;
+				while ( temp.parent != null ) {
+					dp++;
+					temp = temp.parent;
+				}
+				if ( dp > depth ) {
+					System.out.println("Resolving "+temp+" with "+temp.children.size());
+					temp.resolveNode();
+					queue.removeFirst();
+				}
+				else { break; }
+				if ( queue.size() == 0 ) break;
+			} while ( true );
+			if ( queue.size() == 0 ) break;
+			
 			if ( (System.currentTimeMillis()-t) > time ) break;
+		}
+		
+		// Resolve the remaining nodes
+		for ( RootNode n : queue ) {
+			n.resolveNode();
 		}
 		
 		// Get the return node
@@ -182,7 +199,6 @@ public class MinMaxTree {
 				endBrack = tree[i-1].indexOf("]", startBrack);
 				
 				if (startBrack == -1 ) break;
-				System.out.println(startBrack+"  -  "+endBrack);
 				curString = tree[i-1].substring(startBrack,endBrack+1);
 				
 				while ( curString.length()-2 < targLen ) {

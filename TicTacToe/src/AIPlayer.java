@@ -100,7 +100,8 @@ public class AIPlayer implements IPlayer {
 		//* Method #2 -- MinMaxTree
 		if ( type == 't') {
 			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,false,HType);
-			best = tree.evaluateTree(5, 10000);
+			best = tree.evaluateTree(5, 25000);
+			tree.printTree();
 			return best;
 		}
 		/* */
@@ -108,7 +109,8 @@ public class AIPlayer implements IPlayer {
 		//* Method #2 -- MinMaxTree
 		if ( type == 'T') {
 			MinMaxTree tree = new MinMaxTree(gameBoard,mySym,true,HType);
-			best = tree.evaluateTree(5, 10000);
+			best = tree.evaluateTree(5, 25000);
+			tree.printTree();
 			return best;
 		}
 		/* */
@@ -148,7 +150,7 @@ public class AIPlayer implements IPlayer {
 					exchange = true;
 				else {
 					if (bestVal != 3) {			// keep track of win states
-						if (temp == 3)			// prevent loss unless have a win in priority	
+						if (temp == 3)	
 							exchange = true;
 						else if (bestVal != 2) {
 							if (temp == 2)

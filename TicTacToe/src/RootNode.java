@@ -14,7 +14,7 @@ public abstract class RootNode {
 	char chr;
 	int heurType;
 	
-	static final int DEBUG_LEVEL = 0;
+	static final int DEBUG_LEVEL = 2;
 
 	public RootNode(){}
 	public RootNode(Node inMove, RootNode inPar,MinMaxTree t) {

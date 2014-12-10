@@ -8,10 +8,13 @@ public class Heuristic3 implements IHeuristic {
 	private static double VALUE_OF_1ST_SPACE = 1.0; 
 	private static double VALUE_OF_2ND_SPACE = 3.0; 
 	private static double VALUE_OF_3RD_SPACE = 9.0;
-	private final int DEBUG = 2;
+	private final int DEBUG = 0;
 	
 	private static LinkedList<Node> list = null;
 
+	public Heuristic3() {
+		list = null;
+	}
 
 	public double evaluateState(Node root, char sym) {
 		char opp;

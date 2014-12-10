@@ -13,8 +13,8 @@ public class MinRootNode extends RootNode {
 		
 		inMove.setXO('n');
 
-		//beta = Double.MAX_VALUE;
-		beta = value;
+		beta = Double.MAX_VALUE;
+		//beta = value;
 	}
 	
 	@Override
@@ -24,26 +24,30 @@ public class MinRootNode extends RootNode {
 		for ( Node n : choices ) {
 			tempNode = new MaxRootNode(n,this,tree);
 			children.add(tempNode);
-			
-			if ( tree.isPruning() && parent != null && beta < parent.alpha ) {
-				pruned = true;
-				return;
-			}
 		}
 				
-		resolveNode();
 	}
 	
 	public void resolveNode() {
 		//beta = value;
-		beta = Double.MAX_VALUE;
+		beta = Double.POSITIVE_INFINITY;
 
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolving: B-"+beta);
 		for ( RootNode n : children ) {
 			if ( DEBUG_LEVEL >= 3 ) System.out.println(n.alpha);
+			System.out.println(">> TEST "+n.alpha +" < "+beta);
 			if ( n.alpha < beta ) beta = n.alpha;
 		}
+		if ( children.size() == 0 ) {
+			System.out.println(">> TEST == "+beta);			
+			beta = value;
+		}
 		
+		if ( tree.isPruning() && parent != null && beta < parent.alpha ) {
+			if ( DEBUG_LEVEL >= 2 ) System.out.println("Pruned B-"+beta);			
+			pruned = true;
+		}
+
 		if ( DEBUG_LEVEL >= 2 ) System.out.println("Resolved: B-"+beta);
 		if ( parent != null ) parent.resolveNode();
 	}	
